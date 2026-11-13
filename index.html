@@ -115,12 +115,12 @@
                         </div>
                     </div>
 
-                    <!-- Przycisk Facebook -->
+                    <!-- Przycisk Facebook ("Napisz do mnie" + znaczek FB) -->
                     <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" class="mt-6 w-full bg-brandBlue hover:bg-blue-700 text-white font-semibold text-sm py-3.5 px-5 rounded-xl transition flex items-center justify-center gap-2">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 fill-current" viewBox="0 0 24 24">
                             <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
                         </svg>
-                        Napisz na Facebooku (Daily Matma)
+                        Napisz do mnie
                     </a>
                 </div>
             </div>
@@ -165,7 +165,10 @@
                         <div class="lg:col-span-4 flex flex-col lg:items-end justify-between border-t lg:border-t-0 lg:border-l border-white/10 pt-6 lg:pt-0 lg:pl-8">
                             <div class="lg:text-right mb-6">
                                 <span class="text-xs text-neutral-400 uppercase tracking-wider block">Pełny dostęp na 12 mies.</span>
-                                <span class="text-4xl font-extrabold text-white">249 zł</span>
+                                <div class="flex items-baseline lg:justify-end gap-2.5 mt-1">
+                                    <span class="text-xl font-bold text-neutral-500 line-through">250 zł</span>
+                                    <span class="text-4xl font-extrabold text-brandLime">100 zł</span>
+                                </div>
                             </div>
                             <button type="button" class="w-full lg:w-auto bg-brandLime group-hover:bg-lime-400 text-brandDark font-bold text-base px-8 py-4 rounded-2xl transition flex items-center justify-center gap-2 shadow-lg">
                                 Sprawdź program i kup &rarr;
@@ -196,12 +199,15 @@
                             </p>
                         </div>
                         <div class="shrink-0 bg-white/5 p-4 rounded-2xl border border-white/10 text-center min-w-[180px]">
-                            <span class="text-xs text-neutral-400 block">Cena całkowita</span>
-                            <span class="text-3xl font-extrabold text-brandLime">249 zł</span>
+                            <span class="text-xs text-neutral-400 block">Cena promocyjna</span>
+                            <div class="flex items-baseline justify-center gap-2 mt-1">
+                                <span class="text-lg font-bold text-neutral-500 line-through">250 zł</span>
+                                <span class="text-3xl font-extrabold text-brandLime">100 zł</span>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- WYRAŹNY BANER INFORMACYJNY U GÓRY SEKCJI (ZAMIAST CHMUREK) -->
+                    <!-- BANER INFORMACYJNY U GÓRY SEKCJI -->
                     <div class="bg-blue-50 border-2 border-brandBlue/30 rounded-2xl p-5 mb-8 flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
                         <div class="w-12 h-12 rounded-xl bg-brandBlue text-white flex items-center justify-center shrink-0 font-bold text-xl">
                             ✓
@@ -445,7 +451,7 @@
 
                     </div>
 
-                    <!-- Boks: Wsparcie i płatność prywatna na Facebooku / Instagramie -->
+                    <!-- Boks: Wsparcie i płatność prywatna wyłącznie na Facebooku -->
                     <div class="bg-brandDark text-white rounded-3xl p-6 sm:p-8 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
                         <div class="space-y-2 max-w-2xl">
                             <div class="inline-flex items-center gap-2 bg-brandLime/20 text-brandLime text-xs font-bold px-3 py-1 rounded-full">
@@ -455,26 +461,17 @@
                                 Zawsze jestem do usług, jak coś!
                             </h4>
                             <p class="text-sm text-neutral-300 leading-relaxed">
-                                Jeśli utkniesz przy jakimś zadaniu, śmiało pisz – zawsze chętnie pomogę i wytłumaczę. <strong class="text-white">Zakup kursu oraz płatność odbywają się prywatnie na naszym Facebooku lub Instagramie (Daily Matma)</strong> – napisz wiadomość, a od razu nadamy Ci dostęp!
+                                Jeśli utkniesz przy jakimś zadaniu, śmiało pisz – zawsze chętnie pomogę i wytłumaczę. <strong class="text-white">Zakup kursu oraz płatność odbywają się prywatnie na naszym Facebooku (Daily Matma)</strong> – napisz wiadomość, a od razu nadamy Ci dostęp!
                             </p>
                         </div>
 
-                        <div class="flex flex-col sm:flex-row gap-3 w-full lg:w-auto shrink-0">
+                        <div class="w-full lg:w-auto shrink-0">
                             <!-- Przycisk Facebook -->
-                            <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" class="bg-brandBlue hover:bg-blue-700 text-white font-bold text-sm px-6 py-3.5 rounded-2xl transition flex items-center justify-center gap-2 shadow-lg">
+                            <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" class="w-full lg:w-auto bg-brandBlue hover:bg-blue-700 text-white font-bold text-sm px-7 py-4 rounded-2xl transition flex items-center justify-center gap-2.5 shadow-lg">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 fill-current" viewBox="0 0 24 24">
                                     <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
                                 </svg>
                                 Kup na Facebooku
-                            </a>
-                            <!-- Przycisk Instagram -->
-                            <a href="https://www.instagram.com/dailymatma33" target="_blank" rel="noopener noreferrer" class="bg-brandLime hover:bg-lime-400 text-brandDark font-bold text-sm px-6 py-3.5 rounded-2xl transition flex items-center justify-center gap-2 shadow-lg">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                    <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
-                                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
-                                    <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
-                                </svg>
-                                Kup na Instagramie
                             </a>
                         </div>
                     </div>
