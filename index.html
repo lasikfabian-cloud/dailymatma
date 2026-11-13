@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DAILYMATMA - Kursy i Korepetycje</title>
+    <!-- Czcionki Google Fonts: Bebas Neue dla wielkich nagłówków i Inter dla tekstu -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        display: ['"Bebas Neue"', 'sans-serif'],
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        cream: '#FAF9F5',
+                        brandBlue: '#2563EB',
+                        brandLime: '#84CC16',
+                        brandDark: '#111111',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #FAF9F5;
+            color: #111111;
+            font-family: 'Inter', sans-serif;
+        }
+        /* Delikatna niebieska poświata za tekstem MATMA */
+        .matma-glow {
+            text-shadow: 0 0 40px rgba(37, 99, 235, 0.35);
+        }
+        /* Niebieska linia rozdzielająca z kropką na środku */
+        .divider-line {
+            background: linear-gradient(90deg, rgba(37,99,235,0) 0%, rgba(37,99,235,0.4) 50%, rgba(37,99,235,0) 100%);
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-brandBlue selection:text-white">
+
+    <!-- Pływający pasek nawigacji (Navbar) -->
+    <header class="pt-6 px-4 sticky top-0 z-50">
+        <nav class="max-w-5xl mx-auto bg-white/95 backdrop-blur-md rounded-full px-6 py-3 shadow-[0_4px_25px_rgba(0,0,0,0.04)] border border-black/5 flex items-center justify-between">
+            <!-- Logo -->
+            <a href="#" class="font-display text-2xl tracking-wide flex items-center">
+                <span class="text-brandDark">DAILY</span><span class="text-brandBlue">MATMA</span>
+            </a>
+
+            <!-- Linki menu -->
+            <div class="hidden md:flex items-center space-x-8 text-sm font-medium text-neutral-600">
+                <a href="#kursy" class="hover:text-brandDark transition">Kursy</a>
+                <a href="#opinie" class="hover:text-brandDark transition">Opinie</a>
+                <a href="#omnie" class="hover:text-brandDark transition">O mnie</a>
+                <a href="#faq" class="hover:text-brandDark transition">FAQ</a>
+                <a href="#odliczanie" class="hover:text-brandDark transition">Odliczanie</a>
+            </div>
+
+            <!-- Przycisk CTA -->
+            <a href="#kursy" class="bg-brandDark hover:bg-neutral-800 text-white text-sm font-semibold px-5 py-2.5 rounded-full transition flex items-center gap-1.5">
+                Kup dostęp <span>&rarr;</span>
+            </a>
+        </nav>
+    </header>
+
+    <!-- Sekcja Hero -->
+    <main class="max-w-5xl mx-auto px-4 pt-12 pb-20 text-center">
+        
+        <!-- Wielki napis DAILYMATMA -->
+        <h1 class="font-display text-[90px] sm:text-[145px] md:text-[185px] leading-[0.85] tracking-tight select-none my-4">
+            <span class="text-brandDark">DAILY</span><span class="text-brandBlue matma-glow">MATMA</span>
+        </h1>
+
+        <!-- Czarny baner informacyjny (DOSTĘPNE KORKI + TIKTOK) -->
+        <div class="max-w-2xl mx-auto mt-6 bg-brandDark text-white rounded-2xl p-5 sm:p-6 shadow-xl text-left flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 sm:gap-5 border border-white/10">
+            <div class="flex items-center gap-4 sm:gap-5">
+                <!-- Pulsująca zielona kropka -->
+                <div class="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-emerald-500/20">
+                    <span class="animate-ping absolute inline-flex h-5 w-5 rounded-full bg-emerald-500 opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-3.5 w-3.5 bg-emerald-500"></span>
+                </div>
+
+                <!-- Treść baneru -->
+                <div>
+                    <div class="flex flex-wrap items-center gap-2.5 mb-1">
+                        <span class="bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider">
+                            DOSTĘPNE
+                        </span>
+                        <h2 class="font-bold text-base sm:text-lg text-white">
+                            Wolne miejsca na korepetycje indywidualne!
+                        </h2>
+                    </div>
+                    <p class="text-xs sm:text-sm text-neutral-300 leading-relaxed">
+                        Zapisy są otwarte! Aby ustalić termin i szczegóły zajęć, napisz wiadomość prywatną na TikToku: <strong class="text-white font-semibold">@dailymatma33</strong>.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Przycisk kierujący na TikTok -->
+            <a href="https://www.tiktok.com/@dailymatma33" target="_blank" rel="noopener noreferrer" class="shrink-0 w-full sm:w-auto text-center bg-brandBlue hover:bg-blue-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition">
+                Napisz na TikToku &rarr;
+            </a>
+        </div>
+
+        <!-- Ozdobna linia z niebieską kropką -->
+        <div class="max-w-xs mx-auto my-12 relative flex items-center justify-center">
+            <div class="w-full h-[1px] divider-line"></div>
+            <div class="w-2 h-2 rounded-full bg-brandBlue absolute"></div>
+        </div>
+
+        <!-- Sekcja Dostępne Kursy -->
+        <section id="kursy" class="scroll-mt-24">
+            <h2 class="font-display text-4xl sm:text-5xl tracking-wide uppercase">
+                <span class="text-brandDark">DOSTĘPNE </span><span class="text-brandBlue">KURSY</span>
+            </h2>
+            <p class="text-neutral-500 text-sm sm:text-base mt-2 mb-10">
+                Wybierz kategorię i znajdź materiał idealny dla Ciebie.
+            </p>
+
+            <!-- Kontener na kursy -->
+            <div class="bg-white rounded-[32px] p-6 sm:p-10 shadow-[0_8px_40px_rgba(0,0,0,0.03)] border border-black/5">
+                
+                <!-- Przełącznik główny: Egzamin Ósmoklasisty / Dodatki -->
+                <div class="inline-flex bg-neutral-100 p-1.5 rounded-full mb-8">
+                    <button onclick="switchCategory('egzamin')" id="btn-egzamin" class="px-6 py-2 rounded-full text-sm font-semibold bg-white text-brandDark shadow-sm transition">
+                        Egzamin Ósmoklasisty
+                    </button>
+                    <button onclick="switchCategory('dodatki')" id="btn-dodatki" class="px-6 py-2 rounded-full text-sm font-semibold text-neutral-500 hover:text-brandDark transition">
+                        Dodatki
+                    </button>
+                </div>
+
+                <!-- Siatka kart z kursami (Egzamin Ósmoklasisty) -->
+                <div id="grid-egzamin" class="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
+                    <!-- Karta 1 (Limonkowa - Bestseller) -->
+                    <div class="bg-[#182212] text-white rounded-3xl p-7 flex flex-col justify-between relative overflow-hidden border border-brandLime/30 hover:scale-[1.01] transition duration-300">
+                        <div>
+                            <div class="flex items-center gap-2 text-xs font-bold tracking-wider text-brandLime uppercase mb-4">
+                                <span class="w-2 h-2 rounded-full bg-brandLime animate-pulse"></span>
+                                BESTSELLER • EDYCJA LIMONKOWA
+                            </div>
+                            <h3 class="text-2xl font-bold mb-2 text-brandLime">Kurs Egzamin Ósmoklasisty</h3>
+                            <p class="text-neutral-300 text-sm mb-6">
+                                Kompletne przygotowanie od podstaw do 100% na Egzaminie Ósmoklasisty. Wszystkie działy, pewniaki CKE i arkusze krok po kroku.
+                            </p>
+                        </div>
+                        <div class="pt-4 border-t border-white/10 flex items-center justify-between">
+                            <div>
+                                <span class="text-xs text-neutral-400 block">Dostęp na 12 mies.</span>
+                                <span class="text-2xl font-bold text-white">249 zł</span>
+                            </div>
+                            <button class="bg-brandLime hover:bg-lime-500 text-brandDark font-bold text-sm px-5 py-3 rounded-xl transition">
+                                Wybieram &rarr;
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Karta 2 (Jasnoniebieska - Pełny pakiet) -->
+                    <div class="bg-[#F4F7FF] text-brandDark rounded-3xl p-7 flex flex-col justify-between border border-brandBlue/15 hover:scale-[1.01] transition duration-300">
+                        <div>
+                            <div class="flex items-center gap-2 text-xs font-bold tracking-wider text-brandBlue uppercase mb-4">
+                                <span class="w-2 h-2 rounded-full bg-brandBlue"></span>
+                                PEŁNY PAKIET
+                            </div>
+                            <h3 class="text-2xl font-bold mb-2">Pakiet Zadaniowy Ósmoklasisty + PDF</h3>
+                            <p class="text-neutral-600 text-sm mb-6">
+                                Ponad 400 rozwiązanych zadań egzaminacyjnych w formie wideo oraz autorski zbiór zadań zamkniętych i otwartych.
+                            </p>
+                        </div>
+                        <div class="pt-4 border-t border-black/5 flex items-center justify-between">
+                            <div>
+                                <span class="text-xs text-neutral-500 block">Dostęp na 12 mies.</span>
+                                <span class="text-2xl font-bold">169 zł</span>
+                            </div>
+                            <button class="bg-brandBlue hover:bg-blue-700 text-white font-semibold text-sm px-5 py-3 rounded-xl transition">
+                                Wybieram &rarr;
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Siatka kart (Dodatki - ukryta domyślnie) -->
+                <div id="grid-dodatki" class="hidden grid-cols-1 md:grid-cols-2 gap-6 text-left">
+                    <div class="bg-neutral-50 text-brandDark rounded-3xl p-7 flex flex-col justify-between border border-neutral-200">
+                        <div>
+                            <div class="flex items-center gap-2 text-xs font-bold tracking-wider text-brandBlue uppercase mb-4">
+                                <span class="w-2 h-2 rounded-full bg-brandBlue"></span>
+                                E-BOOK / NOTATKI
+                            </div>
+                            <h3 class="text-2xl font-bold mb-2">Pewniaki Ósmoklasisty – Ściągawka</h3>
+                            <p class="text-neutral-600 text-sm mb-6">
+                                Najważniejsze wzory, własności figur i triki obliczeniowe, które musisz znać przed wejściem na salę.
+                            </p>
+                        </div>
+                        <div class="pt-4 border-t border-black/5 flex items-center justify-between">
+                            <div>
+                                <span class="text-xs text-neutral-500 block">Pobierz natychmiast</span>
+                                <span class="text-2xl font-bold">39 zł</span>
+                            </div>
+                            <button class="bg-brandBlue hover:bg-blue-700 text-white font-semibold text-sm px-5 py-3 rounded-xl transition">
+                                Kupuję &rarr;
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <!-- Prosty skrypt do obsługi zakładek -->
+    <script>
+        function switchCategory(category) {
+            const btnEgzamin = document.getElementById('btn-egzamin');
+            const btnDodatki = document.getElementById('btn-dodatki');
+            const gridEgzamin = document.getElementById('grid-egzamin');
+            const gridDodatki = document.getElementById('grid-dodatki');
+
+            if (category === 'egzamin') {
+                btnEgzamin.className = 'px-6 py-2 rounded-full text-sm font-semibold bg-white text-brandDark shadow-sm transition';
+                btnDodatki.className = 'px-6 py-2 rounded-full text-sm font-semibold text-neutral-500 hover:text-brandDark transition';
+                gridEgzamin.classList.remove('hidden');
+                gridEgzamin.classList.add('grid');
+                gridDodatki.classList.add('hidden');
+                gridDodatki.classList.remove('grid');
+            } else {
+                btnDodatki.className = 'px-6 py-2 rounded-full text-sm font-semibold bg-white text-brandDark shadow-sm transition';
+                btnEgzamin.className = 'px-6 py-2 rounded-full text-sm font-semibold text-neutral-500 hover:text-brandDark transition';
+                gridEgzamin.classList.add('hidden');
+                gridEgzamin.classList.remove('grid');
+                gridDodatki.classList.remove('hidden');
+                gridDodatki.classList.add('grid');
+            }
+        }
+    </script>
+</body>
+</html>
