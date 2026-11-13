@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DAILYMATMA - Egzamin Ósmoklasisty i Korepetycje</title>
+    <!-- Czcionki Google Fonts: Bebas Neue i Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        display: ['"Bebas Neue"', 'sans-serif'],
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        cream: '#FAF9F5',
+                        brandBlue: '#2563EB',
+                        brandLime: '#84CC16',
+                        brandDark: '#111111',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #FAF9F5;
+            color: #111111;
+            font-family: 'Inter', sans-serif;
+        }
+        .matma-glow {
+            text-shadow: 0 0 45px rgba(37, 99, 235, 0.3);
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.35s ease-out forwards;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-brandBlue selection:text-white">
+
+    <!-- Pływający pasek nawigacji (Navbar) -->
+    <header class="pt-6 px-4 sticky top-0 z-50">
+        <nav class="max-w-6xl mx-auto bg-white/95 backdrop-blur-md rounded-full px-6 py-3 shadow-[0_4px_25px_rgba(0,0,0,0.04)] border border-black/5 flex items-center justify-between">
+            <!-- Logo -->
+            <a href="#" onclick="showOverview()" class="font-display text-2xl tracking-wide flex items-center">
+                <span class="text-brandDark">DAILY</span><span class="text-brandBlue">MATMA</span>
+            </a>
+
+            <!-- Linki menu -->
+            <div class="hidden md:flex items-center space-x-8 text-sm font-medium text-neutral-600">
+                <a href="#kurs" onclick="showOverview()" class="hover:text-brandDark transition">Kurs E8</a>
+                <a href="#opinie" class="hover:text-brandDark transition">Opinie</a>
+                <a href="#omnie" class="hover:text-brandDark transition">O mnie</a>
+                <a href="#faq" class="hover:text-brandDark transition">FAQ</a>
+            </div>
+
+            <!-- Przycisk CTA -->
+            <button onclick="openCourseDetails()" class="bg-brandDark hover:bg-neutral-800 text-white text-sm font-semibold px-5 py-2.5 rounded-full transition flex items-center gap-1.5">
+                Przejdź do kursu <span>&rarr;</span>
+            </button>
+        </nav>
+    </header>
+
+    <!-- Główna zawartość -->
+    <main class="max-w-6xl mx-auto px-4 pt-10 pb-24">
+        
+        <!-- SEKCJA HERO: Dwie kolumny -->
+        <section class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center py-6 lg:py-12">
+            
+            <!-- Lewa strona: Tytuł + szybki opis -->
+            <div class="lg:col-span-7 text-center lg:text-left">
+                <div class="inline-flex items-center gap-2 bg-brandBlue/10 text-brandBlue text-xs font-bold px-3.5 py-1.5 rounded-full mb-4">
+                    <span>MATEMATYKA BEZ STRESU</span>
+                </div>
+                <h1 class="font-display text-[88px] sm:text-[130px] xl:text-[155px] leading-[0.85] tracking-tight select-none">
+                    <span class="text-brandDark">DAILY</span><span class="text-brandBlue matma-glow">MATMA</span>
+                </h1>
+                <p class="text-neutral-600 text-base sm:text-lg max-w-xl mx-auto lg:mx-0 mt-5 leading-relaxed">
+                    Konkretne przygotowanie do Egzaminu Ósmoklasisty i indywidualne wsparcie, dzięki któremu zrozumiesz zadania zamiast uczyć się schematów na pamięć.
+                </p>
+            </div>
+
+            <!-- Prawa strona: Karta korepetycji -->
+            <div class="lg:col-span-5">
+                <div class="bg-brandDark text-white rounded-3xl p-6 sm:p-7 shadow-2xl border border-white/10 relative overflow-hidden">
+                    <div class="absolute -top-12 -right-12 w-36 h-36 bg-brandBlue/25 rounded-full blur-2xl pointer-events-none"></div>
+
+                    <div class="flex items-start gap-4">
+                        <div class="w-12 h-12 rounded-2xl bg-brandBlue/20 border border-brandBlue/40 flex items-center justify-center shrink-0 text-brandBlue">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                        </div>
+
+                        <div>
+                            <span class="inline-block bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-[11px] font-bold px-2.5 py-0.5 rounded-md uppercase tracking-wider mb-2">
+                                Zapisy otwarte
+                            </span>
+                            <h2 class="font-bold text-lg sm:text-xl text-white leading-snug">
+                                Korepetycje indywidualne
+                            </h2>
+                            <p class="text-xs sm:text-sm text-neutral-300 mt-1.5 leading-relaxed">
+                                Mam jeszcze wolne terminy! Aby ustalić godziny i szczegóły zajęć, odezwij się w wiadomości prywatnej na TikToku: <strong class="text-white">@dailymatma33</strong>.
+                            </p>
+                        </div>
+                    </div>
+
+                    <a href="https://www.tiktok.com/@dailymatma33" target="_blank" rel="noopener noreferrer" class="mt-6 w-full bg-brandBlue hover:bg-blue-700 text-white font-semibold text-sm py-3.5 px-5 rounded-xl transition flex items-center justify-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                        </svg>
+                        Napisz na TikToku (@dailymatma33)
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Linia oddzielająca -->
+        <div class="border-t border-black/10 my-8"></div>
+
+        <!-- SEKCJA KURSU -->
+        <section id="kurs" class="scroll-mt-24 pt-4">
+            
+            <!-- WIDOK 1: Karta główna kursu -->
+            <div id="course-overview" class="animate-fade-in">
+                <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+                    <div>
+                        <span class="text-brandBlue font-bold text-xs uppercase tracking-widest">OFERTA KURSOWA</span>
+                        <h2 class="font-display text-4xl sm:text-5xl tracking-wide uppercase mt-1">
+                            <span class="text-brandDark">JEDYNY TAKI </span><span class="text-brandBlue">KURS</span>
+                        </h2>
+                    </div>
+                    <p class="text-neutral-500 text-sm max-w-md">
+                        11 kompletnych działów – do każdego tematu dostajesz tłumaczenie wideo oraz zestaw zadań do samodzielnego przerobienia.
+                    </p>
+                </div>
+
+                <!-- Pojedyncza, szeroka limonkowa karta Egzaminu Ósmoklasisty -->
+                <div onclick="openCourseDetails()" class="cursor-pointer group bg-[#182212] text-white rounded-[32px] p-8 sm:p-12 border-2 border-brandLime/40 hover:border-brandLime shadow-xl transition duration-300 relative overflow-hidden">
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                        <div class="lg:col-span-8">
+                            <div class="inline-flex items-center gap-2 bg-brandLime/15 text-brandLime text-xs font-bold tracking-wider uppercase px-3.5 py-1.5 rounded-full mb-5">
+                                <span class="w-2 h-2 rounded-full bg-brandLime animate-pulse"></span>
+                                KURS KOMPLETNY • 11 DZIAŁÓW + ZADANIA
+                            </div>
+                            <h3 class="text-3xl sm:text-4xl font-extrabold text-brandLime mb-4 group-hover:translate-x-1 transition-transform">
+                                Kurs: Egzamin Ósmoklasisty z Matematyki
+                            </h3>
+                            <p class="text-neutral-300 text-base sm:text-lg leading-relaxed max-w-2xl">
+                                Kompletny kurs krok po kroku obejmujący wszystkie 11 działów egzaminacyjnych. Do każdego poddziału otrzymujesz konkretny filmik z tłumaczeniem oraz zestaw zadań do przerobienia.
+                            </p>
+                        </div>
+
+                        <div class="lg:col-span-4 flex flex-col lg:items-end justify-between border-t lg:border-t-0 lg:border-l border-white/10 pt-6 lg:pt-0 lg:pl-8">
+                            <div class="lg:text-right mb-6">
+                                <span class="text-xs text-neutral-400 uppercase tracking-wider block">Pełny dostęp na 12 mies.</span>
+                                <span class="text-4xl font-extrabold text-white">249 zł</span>
+                            </div>
+                            <button type="button" class="w-full lg:w-auto bg-brandLime group-hover:bg-lime-400 text-brandDark font-bold text-base px-8 py-4 rounded-2xl transition flex items-center justify-center gap-2 shadow-lg">
+                                Zobacz cały spis działów <span class="group-hover:translate-x-1 transition-transform">&rarr;</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- WIDOK 2: Pełny spis 11 działów + info o filmikach, wsparciu i płatności na IG -->
+            <div id="course-details" class="hidden animate-fade-in">
+                <!-- Pasek powrotu -->
+                <button onclick="showOverview()" class="inline-flex items-center gap-2 text-sm font-semibold text-neutral-600 hover:text-brandBlue mb-6 transition">
+                    &larr; Wróć do widoku głównego
+                </button>
+
+                <div class="bg-white rounded-[32px] p-6 sm:p-10 shadow-[0_8px_40px_rgba(0,0,0,0.04)] border border-black/5">
+                    
+                    <!-- Nagłówek szczegółów -->
+                    <div class="bg-[#182212] text-white rounded-2xl p-6 sm:p-8 mb-8 border border-brandLime/30 flex flex-col md:flex-row md:items-center justify-between gap-6">
+                        <div>
+                            <span class="text-brandLime text-xs font-bold uppercase tracking-wider">PROGRAM KURSU E8 • 11 DZIAŁÓW</span>
+                            <h3 class="text-2xl sm:text-3xl font-extrabold text-white mt-1">
+                                Egzamin Ósmoklasisty – Pełny Spis Materiału
+                            </h3>
+                            <p class="text-neutral-300 text-sm mt-2 max-w-2xl">
+                                Do każdego poddziału przygotowałem <strong class="text-brandLime">filmik z tłumaczeniem krok po kroku</strong> oraz <strong class="text-brandLime">zestaw zadań do przerobienia</strong>, żebyś od razu utrwalił materiał w praktyce.
+                            </p>
+                        </div>
+                        <div class="shrink-0 bg-white/5 p-4 rounded-2xl border border-white/10 text-center min-w-[180px]">
+                            <span class="text-xs text-neutral-400 block">Cena całkowita</span>
+                            <span class="text-3xl font-extrabold text-brandLime">249 zł</span>
+                        </div>
+                    </div>
+
+                    <!-- Legenda formatu lekcji -->
+                    <div class="flex flex-wrap items-center gap-3 mb-6 text-xs font-medium text-neutral-600">
+                        <span class="inline-flex items-center gap-1.5 bg-brandBlue/10 text-brandBlue px-3 py-1.5 rounded-full font-semibold">
+                            🎬 Filmik wideo do każdego poddziału
+                        </span>
+                        <span class="inline-flex items-center gap-1.5 bg-brandLime/20 text-brandDark px-3 py-1.5 rounded-full font-semibold">
+                            ✍️ Zestaw zadań do przerobienia po każdej lekcji
+                        </span>
+                        <span class="inline-flex items-center gap-1.5 bg-amber-500/15 text-amber-800 px-3 py-1.5 rounded-full font-semibold">
+                            ⭐ Priorytet egzaminacyjny
+                        </span>
+                    </div>
+
+                    <!-- Siatka wszystkich 11 działów -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-10">
+                        
+                        <!-- Dział 1 (PRIORYTET) -->
+                        <div class="p-6 rounded-2xl bg-cream border-2 border-brandBlue/30 relative">
+                            <div class="flex items-center justify-between gap-2 mb-3">
+                                <span class="text-xs font-extrabold text-brandBlue uppercase tracking-wider">Dział 1</span>
+                                <span class="bg-brandBlue text-white text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider">Priorytet</span>
+                            </div>
+                            <h4 class="font-bold text-lg text-brandDark mb-3">1. Liczby i działania</h4>
+                            <ul class="space-y-2 text-sm text-neutral-700">
+                                <li class="flex items-start justify-between gap-2">
+                                    <span>1.1. Działania i kolejność wykonywania działań</span>
+                                    <span class="text-[11px] text-neutral-400 shrink-0">Wideo + Zadania</span>
+                                </li>
+                                <li class="flex items-start justify-between gap-2">
+                                    <span>1.2. Ułamki zwykłe i dziesiętne</span>
+                                    <span class="text-[11px] text-neutral-400 shrink-0">Wideo + Zadania</span>
+                                </li>
+                                <li class="flex items-start justify-between gap-2">
+                                    <span>1.3. Liczby całkowite i oś liczbowa</span>
+                                    <span class="text-[11px] text-neutral-400 shrink-0">Wideo + Zadania</span>
+                                </li>
+                                <li class="flex items-start justify-between gap-2">
+                                    <span>1.4. Podzielność, NWD i NWW</span>
+                                    <span class="text-[11px] text-neutral-400 shrink-0">Wideo + Zadania</span>
+                                </li>
+                                <li class="flex items-start justify-between gap-2">
+                                    <span>1.5. Potęgi i pierwiastki</span>
+                                    <span class="text-[11px] text-neutral-400 shrink-0">Wideo + Zadania</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Dział 2 -->
+                        <div class="p-6 rounded-2xl bg-cream border border-black/5">
+                            <span class="text-xs font-extrabold text-brandBlue uppercase tracking-wider block mb-3">Dział 2</span>
+                            <h4 class="font-bold text-lg text-brandDark mb-3">2. Procenty</h4>
+                            <ul class="space-y-2 text-sm text-neutral-700">
+                                <li class="flex items-start justify-between gap-2">
+                                    <span>2.1. Wszystkie rodzaje obliczeń procentowych</span>
+                                    <span class="text-[11px] text-neutral-400 shrink-0">Wideo + Zadania</span>
+                                </li>
+                                <li class="flex items-start justify-between gap-2">
+                                    <span>2.2. Podwyżki, obniżki i zadania procentowe</span>
+                                    <span class="text-[11px] text-neutral-400 shrink-0">Wideo + Zadania</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Dział 3 -->
+                        <div class="p-6 rounded-2xl bg-cream border border-black/5">
+                            <span class="text-xs font-extrabold text-brandBlue uppercase tracking-wider block mb-3">Dział 3</span>
+                            <h4 class="font-bold text-lg text-brandDark mb-3">3. Proporcje i obliczenia praktyczne</h4>
+                            <ul class="space-y-2 text-sm text-neutral-700">
+                                <li class="flex items-start justify-between gap-2">
+                                    <span>3.1. Stosunki i proporcje</span>
+                                    <span class="text-[11px] text-neutral-400 shrink-0">Wideo + Zadania</span>
+                                </li>
+                                <li class="flex items-start justify-between gap-2">
+                                    <span>3.2. Skala, jednostki i zamiana jednostek</span>
+                                    <span class="text-[11px] text-neutral-400 shrink-0">Wideo + Zadania</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Dział 4 -->
+                        <div class="p-6 rounded-2xl bg-cream border border-black/5">
+                            <span class="text-xs font-extrabold text-brandBlue uppercase tracking-wider block mb-3">Dział 4</span>
+                            <h4 class="font-bold text-lg text-brandDark mb-3">4. Algebra i równania</h4>
+                            <ul class="space-y-2 text-sm text-neutral-700">
+                                <li class="flex items-start justify-between gap-2">
+                                    <span>4.1. Wyrażenia algebraiczne</span>
+                                    <span class="text-[11px] text-neutral-400 shrink-0">Wideo + Zadania</span>
+                                </li>
+                                <li class="flex items-start justify-between gap-2">
+                                    <span>4.2. Przekształcanie wyrażeń i wzorów</span>
+                                    <span class="text-[11px] text-neutral-400 shrink-0">Wideo + Zadania</span>
+                                </li>
+                                <li class="flex items-start justify-between gap-2">
+                                    <span>4.3. Równania</span>
+                                    <span class="text-[11px] text-neutral-400 shrink-0">Wideo + Zadania</span>
+                                </li>
+                                <li class="flex items-start justify-between gap-2">
+                                    <span>4.4. Zadania tekstowe za pomocą równań</span>
+                                    <span class="text-[11px] text-neutral-400 shrink-0">Wideo + Zadania</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Dział 5 -->
+                        <div class="p-6 rounded-2xl bg-cream border border-black/5">
+                            <span class="text-xs font-extrabold text-brandBlue uppercase tracking-wider block mb-3">Dział 5</span>
+                            <h4 class="font-bold text-lg text-brandDark mb-3">5. Zadania tekstowe</h4>
+                            <ul class="space-y-2 text-sm text-neutral-700">
+                                <li class="flex items-start justify-between gap-2">
+                                    <span>5.1. Uniwersalna metoda rozwiązywania zadań tekstowych</span>
+                                    <span class="text-[11px] text-neutral-400 shrink-0">Wideo + Zadania</span>
+                                </li>
+                                <li class="flex items-start justify-between gap-2">
+                                    <span>5.2. Zadania wieloetapowe i problemowe</span>
+                                    <span class="text-[11px] text-neutral-400 shrink-0">Wideo + Zadania</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Dział 6 -->
+                        <div class="p-6 rounded-2xl bg-cream border border-black/5">
+                            <span class="text-xs font-extrabold text-brandBlue uppercase tracking-wider block mb-3">Dział 6</span>
+                            <h4 class="font-bold text-lg text-brandDark mb-3">6. Statystyka i diagramy</h4>
+                            <ul class="space-y-2 text-sm text-neutral-700">
+                                <li class="flex items-start justify-between gap-2">
+                                    <span>6.1. Odczytywanie tabel, diagramów i wykresów</span>
+                                    <span class="text-[11px] text-neutral-400 shrink-0">Wideo + Zadania</span>
+                                </li>
+                                <li class="flex items-start justify-between gap-2">
+                                    <span>6.2. Średnia arytmetyczna</span>
+                                    <span class="text-[11px] text-neutral-400 shrink-0">Wideo + Zadania</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Dział 7 -->
+                        <div class="p-6 rounded-2xl bg-cream border border-black/5">
+                            <span class="text-xs font-extrabold text-brandBlue uppercase tracking-wider block mb-3">Dział 7</span>
+                            <h4 class="font-bold text-lg text-brandDark mb-3">7. Prawdopodobieństwo i kombinatoryka</h4>
+                            <ul class="space-y-2 text-sm text-neutral-700">
+                                <li class="flex items-start justify-between gap-2">
+                                    <span>7.1. Prawdopodobieństwo</span>
+                                    <span class="text-[11px] text-neutral-400 shrink-0">Wideo + Zadania</span>
+                                </li>
+                                <li class="flex items-start justify-between gap-2">
+                                    <span>7.2. Zliczanie możliwości i zadania logiczne</span>
+                                    <span class="text-[11px] text-neutral-400 shrink-0">Wideo + Zadania</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Dział 8 (PRIORYTET) -->
+                        <div class="p-6 rounded-2xl bg-cream border-2 border-brandBlue/30 relative">
+                            <div class="flex items-center justify-between gap-2 mb-3">
+                                <span class="text-xs font-extrabold text-brandBlue uppercase tracking-wider">Dział 8</span>
+                                <span class="bg-brandBlue text-white text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider">Priorytet</span>
+                            </div>
+                            <h4 class="font-bold text-lg text-brandDark mb-3">8. Geometria płaska</h4>
+                            <ul class="space-y-2 text-sm text-neutral-700">
+                                <li class="flex items-start justify-between gap-2">
+                                    <span>8.1. Kąty i ich własności</span>
+                                    <span class="text-[11px] text-neutral-400 shrink-0">Wideo + Zadania</span>
+                                </li>
+                                <li class="flex items-start justify-between gap-2">
+                                    <span>8.2. Trójkąty i czworokąty</span>
+                                    <span class="text-[11px] text-neutral-400 shrink-0">Wideo + Zadania</span>
+                                </li>
+                                <li class="flex items-start justify-between gap-2">
+                                    <span>8.3. Obwody i pola figur</span>
+                                    <span class="text-[11px] text-neutral-400 shrink-0">Wideo + Zadania</span>
+                                </li>
+                                <li class="flex items-start justify-between gap-2">
+                                    <span>8.4. Twierdzenie Pitagorasa</span>
+                                    <span class="text-[11px] text-neutral-400 shrink-0">Wideo + Zadania</span>
+                                </li>
+                                <li class="flex items-start justify-between gap-2">
+                                    <span>8.5. Figury złożone, koła i okręgi</span>
+                                    <span class="text-[11px] text-neutral-400 shrink-0">Wideo + Zadania</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Dział 9 -->
+                        <div class="p-6 rounded-2xl bg-cream border border-black/5">
+                            <span class="text-xs font-extrabold text-brandBlue uppercase tracking-wider block mb-3">Dział 9</span>
+                            <h4 class="font-bold text-lg text-brandDark mb-3">9. Geometria przestrzenna</h4>
+                            <ul class="space-y-2 text-sm text-neutral-700">
+                                <li class="flex items-start justify-between gap-2">
+                                    <span>9.1. Graniastosłupy i ostrosłupy</span>
+                                    <span class="text-[11px] text-neutral-400 shrink-0">Wideo + Zadania</span>
+                                </li>
+                                <li class="flex items-start justify-between gap-2">
+                                    <span>9.2. Siatki, pola powierzchni i objętości</span>
+                                    <span class="text-[11px] text-neutral-400 shrink-0">Wideo + Zadania</span>
+                                </li>
+                                <li class="flex items-start justify-between gap-2">
+                                    <span>9.3. Bryły złożone i zadania praktyczne</span>
+                                    <span class="text-[11px] text-neutral-400 shrink-0">Wideo + Zadania</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Dział 10 -->
+                        <div class="p-6 rounded-2xl bg-cream border border-black/5">
+                            <span class="text-xs font-extrabold text-brandBlue uppercase tracking-wider block mb-3">Dział 10</span>
+                            <h4 class="font-bold text-lg text-brandDark mb-3">10. Układ współrzędnych</h4>
+                            <ul class="space-y-2 text-sm text-neutral-700">
+                                <li class="flex items-start justify-between gap-2">
+                                    <span>10.1. Odczytywanie i zaznaczanie punktów</span>
+                                    <span class="text-[11px] text-neutral-400 shrink-0">Wideo + Zadania</span>
+                                </li>
+                                <li class="flex items-start justify-between gap-2">
+                                    <span>10.2. Zadania geometryczne na siatce</span>
+                                    <span class="text-[11px] text-neutral-400 shrink-0">Wideo + Zadania</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Dział 11 (Pełna szerokość na dole) -->
+                        <div class="md:col-span-2 p-6 rounded-2xl bg-brandBlue/5 border border-brandBlue/20">
+                            <span class="text-xs font-extrabold text-brandBlue uppercase tracking-wider block mb-2">Dział 11 • Finałowe szlify</span>
+                            <h4 class="font-bold text-lg text-brandDark mb-3">11. Przygotowanie do egzaminu</h4>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm text-neutral-700">
+                                <div class="bg-white p-3.5 rounded-xl border border-black/5 flex items-center justify-between gap-2">
+                                    <span>11.1. Zadania zamknięte i prawda/fałsz</span>
+                                    <span class="text-[11px] text-brandBlue font-semibold shrink-0">Wideo + Zadania</span>
+                                </div>
+                                <div class="bg-white p-3.5 rounded-xl border border-black/5 flex items-center justify-between gap-2">
+                                    <span>11.2. Zadania otwarte i uzasadnianie</span>
+                                    <span class="text-[11px] text-brandBlue font-semibold shrink-0">Wideo + Zadania</span>
+                                </div>
+                                <div class="bg-white p-3.5 rounded-xl border border-black/5 flex items-center justify-between gap-2">
+                                    <span>11.3. Zadania trudne i nietypowe</span>
+                                    <span class="text-[11px] text-brandBlue font-semibold shrink-0">Wideo + Zadania</span>
+                                </div>
+                                <div class="bg-white p-3.5 rounded-xl border border-black/5 flex items-center justify-between gap-2">
+                                    <span>11.4. Pełne arkusze egzaminacyjne dla wszystkich poddziałów</span>
+                                    <span class="text-[11px] text-brandBlue font-semibold shrink-0">Wideo + Arkusze</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Boks: Wsparcie i płatność prywatna na Instagramie -->
+                    <div class="bg-brandDark text-white rounded-3xl p-6 sm:p-8 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
+                        <div class="space-y-2 max-w-2xl">
+                            <div class="inline-flex items-center gap-2 bg-brandLime/20 text-brandLime text-xs font-bold px-3 py-1 rounded-full">
+                                <span>WSPARCIE 1:1 &amp; DOSTĘP</span>
+                            </div>
+                            <h4 class="text-xl sm:text-2xl font-bold text-white">
+                                Zawsze jestem do usług, jak coś!
+                            </h4>
+                            <p class="text-sm text-neutral-300 leading-relaxed">
+                                Jeśli utkniesz przy jakimś zadaniu z kursu albo będziesz mieć pytania do materiału – śmiało pisz, zawsze chętnie pomogę i wytłumaczę. <strong class="text-white">Płatność oraz nadanie dostępu odbywają się u mnie prywatnie na Instagramie</strong> – napisz wiadomość, a wszystko od razu załatwimy!
+                            </p>
+                        </div>
+
+                        <a href="https://www.instagram.com/dailymatma33" target="_blank" rel="noopener noreferrer" class="shrink-0 w-full lg:w-auto bg-brandLime hover:bg-lime-400 text-brandDark font-bold text-base px-7 py-4 rounded-2xl transition flex items-center justify-center gap-2.5 shadow-lg">
+                            <!-- Ikona Instagrama -->
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
+                                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                                <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
+                            </svg>
+                            Kupuję na Instagramie &rarr;
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+    <!-- Skrypt przełączający widok po wejściu w kurs -->
+    <script>
+        function openCourseDetails() {
+            document.getElementById('course-overview').classList.add('hidden');
+            document.getElementById('course-details').classList.remove('hidden');
+            document.getElementById('kurs').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function showOverview() {
+            document.getElementById('course-details').classList.add('hidden');
+            document.getElementById('course-overview').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
