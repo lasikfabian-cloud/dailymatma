@@ -48,27 +48,35 @@
 </head>
 <body class="antialiased selection:bg-brandBlue selection:text-white">
 
-    <!-- Pływający pasek nawigacji (Navbar) -->
+    <!-- NOWY PASEK U GÓRY: Konkretne zalety zamiast pustych zakładek -->
     <header class="pt-6 px-4 sticky top-0 z-50">
-        <nav class="max-w-6xl mx-auto bg-white/95 backdrop-blur-md rounded-full px-6 py-3 shadow-[0_4px_25px_rgba(0,0,0,0.04)] border border-black/5 flex items-center justify-between">
+        <div class="max-w-6xl mx-auto bg-white/95 backdrop-blur-md rounded-full px-5 sm:px-6 py-3 shadow-[0_4px_25px_rgba(0,0,0,0.04)] border border-black/5 flex items-center justify-between gap-4">
             <!-- Logo -->
-            <a href="#" onclick="showOverview()" class="font-display text-2xl tracking-wide flex items-center">
+            <a href="#" onclick="showOverview()" class="font-display text-2xl tracking-wide flex items-center shrink-0">
                 <span class="text-brandDark">DAILY</span><span class="text-brandBlue">MATMA</span>
             </a>
 
-            <!-- Linki menu -->
-            <div class="hidden md:flex items-center space-x-8 text-sm font-medium text-neutral-600">
-                <a href="#kurs" onclick="showOverview()" class="hover:text-brandDark transition">Kurs E8</a>
-                <a href="#opinie" class="hover:text-brandDark transition">Opinie</a>
-                <a href="#omnie" class="hover:text-brandDark transition">O mnie</a>
-                <a href="#faq" class="hover:text-brandDark transition">FAQ</a>
+            <!-- Konkretne atuty kursu na środku (zamiast nieaktywnych linków) -->
+            <div class="hidden md:flex items-center space-x-6 text-xs font-semibold text-neutral-600">
+                <span class="flex items-center gap-1.5">
+                    <span class="w-2 h-2 rounded-full bg-brandBlue"></span>
+                    11 działów E8
+                </span>
+                <span class="flex items-center gap-1.5">
+                    <span class="w-2 h-2 rounded-full bg-brandLime"></span>
+                    Wideo + zadania do każdego tematu
+                </span>
+                <span class="flex items-center gap-1.5">
+                    <span class="w-2 h-2 rounded-full bg-brandDark"></span>
+                    Wsparcie 1:1
+                </span>
             </div>
 
-            <!-- Przycisk CTA -->
-            <button onclick="openCourseDetails()" class="bg-brandDark hover:bg-neutral-800 text-white text-sm font-semibold px-5 py-2.5 rounded-full transition flex items-center gap-1.5">
-                Przejdź do kursu <span>&rarr;</span>
+            <!-- Przycisk otwierający program i zakup -->
+            <button onclick="openCourseDetails()" class="bg-brandDark hover:bg-neutral-800 text-white text-xs sm:text-sm font-semibold px-4 sm:px-5 py-2.5 rounded-full transition flex items-center gap-1.5 shrink-0">
+                Kurs E8 • <span class="text-brandLime font-bold">100 zł</span> <span>&rarr;</span>
             </button>
-        </nav>
+        </div>
     </header>
 
     <!-- Główna zawartość -->
@@ -495,5 +503,6 @@
             document.getElementById('course-overview').classList.remove('hidden');
         }
     </script>
+    <!--wersja1  -->
 </body>
 </html>
