@@ -541,8 +541,10 @@
 
     <!-- SKRYPTY OBSŁUGI ZAKŁADEK I SUPABASE -->
     <script>
+        // TUTAJ WKLEJ SWÓJ URL I KLUCZ ANON JWT (ZACZYNAJĄCY SIĘ OD eyJ...)
         const SUPABASE_URL = 'https://jywkcyvmkvrtpigpljl.supabase.co';
-        const SUPABASE_ANON_KEY = 'sb_publishable_n-d8RJV6OrFZWIuPqw4A0w_cy0Rdylj';
+        const SUPABASE_ANON_KEY = 'eyJ...TUTAJ_WKLEJ_SWÓJ_KLUCZ_JWT_Z_SUPABASE...';
+        
         const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
         let authMode = 'login';
