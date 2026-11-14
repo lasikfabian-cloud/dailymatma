@@ -51,12 +51,10 @@
     <!-- PASEK U GÓRY -->
     <header class="pt-6 px-4 sticky top-0 z-40">
         <div class="max-w-6xl mx-auto bg-white/95 backdrop-blur-md rounded-full px-5 sm:px-6 py-3 shadow-[0_4px_25px_rgba(0,0,0,0.04)] border border-black/5 flex items-center justify-between gap-4">
-            <!-- Logo -->
             <a href="#" onclick="showOverview()" class="font-display text-2xl tracking-wide flex items-center shrink-0">
                 <span class="text-brandDark">DAILY</span><span class="text-brandBlue">MATMA</span>
             </a>
 
-            <!-- Konkretne atuty kursu -->
             <div class="hidden lg:flex items-center space-x-6 text-xs font-semibold text-neutral-600">
                 <span class="flex items-center gap-1.5">
                     <span class="w-2 h-2 rounded-full bg-brandBlue"></span>
@@ -72,7 +70,6 @@
                 </span>
             </div>
 
-            <!-- Przyciski akcji po prawej (Logowanie / Panel kursanta) -->
             <div class="flex items-center gap-2 sm:gap-3 shrink-0">
                 <button id="btn-open-auth" onclick="openAuthModal()" class="text-xs sm:text-sm font-bold text-brandDark hover:text-brandBlue px-3 py-2 transition">
                     Zaloguj się
@@ -92,7 +89,7 @@
         </div>
     </header>
 
-    <!-- OKNO LOGOWANIA / REJESTRACJI (MODAL) -->
+    <!-- OKNO LOGOWANIA / REJESTRACJI -->
     <div id="auth-modal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
         <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl relative animate-fade-in">
             <button onclick="closeAuthModal()" class="absolute top-5 right-5 text-neutral-400 hover:text-brandDark text-xl font-bold">&times;</button>
@@ -103,7 +100,6 @@
                 <p id="auth-subtitle" class="text-xs text-neutral-500 mt-1">Wpisz swój e-mail i hasło, aby uzyskać dostęp do materiałów.</p>
             </div>
 
-            <!-- Przełącznik Logowanie / Rejestracja -->
             <div class="grid grid-cols-2 bg-neutral-100 p-1 rounded-xl mb-6 text-xs font-bold">
                 <button type="button" id="tab-login" onclick="switchAuthMode('login')" class="py-2 rounded-lg bg-white text-brandDark shadow-sm transition">Logowanie</button>
                 <button type="button" id="tab-register" onclick="switchAuthMode('register')" class="py-2 rounded-lg text-neutral-500 hover:text-brandDark transition">Załóż konto</button>
@@ -128,11 +124,11 @@
         </div>
     </div>
 
-    <!-- STREFA KURSANTA (NOWY PANEL Z ZAKŁADKAMI) -->
+    <!-- STREFA KURSANTA (ZAKŁADKI) -->
     <section id="student-dashboard" class="hidden max-w-6xl mx-auto px-4 pt-8 pb-24 animate-fade-in">
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
             <div>
-                <span class="text-xs font-bold text-brandBlue uppercase tracking-wider">PANEL KURSANTI</span>
+                <span class="text-xs font-bold text-brandBlue uppercase tracking-wider">PANEL KURSANTA</span>
                 <h2 class="text-2xl sm:text-3xl font-extrabold text-brandDark">Witaj w swojej strefie nauki!</h2>
                 <p id="logged-user-email" class="text-xs text-neutral-500 mt-0.5"></p>
             </div>
@@ -141,7 +137,7 @@
             </button>
         </div>
 
-        <!-- WIDOK GDY UŻYTKOWNIK NIE MA DOSTĘPU -->
+        <!-- WIDOK BRAKU DOSTĘPU -->
         <div id="no-access-box" class="hidden bg-white rounded-3xl p-8 sm:p-12 border-2 border-amber-400/50 text-center max-w-2xl mx-auto shadow-lg mb-8">
             <div class="w-14 h-14 rounded-2xl bg-amber-100 text-amber-600 flex items-center justify-center mx-auto text-2xl font-bold mb-4">
                 🔒
@@ -155,12 +151,12 @@
             </a>
         </div>
 
-        <!-- ZAWARTOŚĆ STREFY KURSANTA (GŁÓWNY UKŁAD Z MENU BOCZNYM) -->
+        <!-- GŁÓWNY UKŁAD STREFY KURSANTA -->
         <div id="student-main-content" class="grid grid-cols-1 lg:grid-cols-12 gap-6">
             
-            <!-- MENU BOCZNE (ZAKŁADKI) -->
+            <!-- MENU BOCZNE -->
             <div class="lg:col-span-3 bg-white rounded-3xl p-4 border border-black/5 shadow-sm h-fit space-y-2">
-                <button onclick="switchStudentTab('kursy')" id="menu-kursy" class="w-full text-left px-4 py-3 rounded-2xl font-bold text-sm bg-brandBlue text-white transition flex items-center gap-3">
+                <button onclick="switchStudentTab('kursy')" id="menu-kursy" class="w-full text-left px-4 py-3 rounded-2xl font-bold text-sm bg-brandBlue text-white transition flex items-center gap-3 shadow-sm">
                     <span>📚</span> Moje kursy
                 </button>
                 <button onclick="switchStudentTab('materialy')" id="menu-materialy" class="w-full text-left px-4 py-3 rounded-2xl font-bold text-sm text-neutral-700 hover:bg-cream transition flex items-center gap-3">
@@ -179,47 +175,66 @@
                 </div>
             </div>
 
-            <!-- GŁÓWNY OBSZAR WYŚWIETLANIA ZAKŁADEK -->
+            <!-- TREŚĆ ZAKŁADEK -->
             <div class="lg:col-span-9">
                 
-                <!-- ZAKŁADKA 1: MOJE KURSY (Odtwarzacz + Lista lekcji) -->
+                <!-- ZAKŁADKA 1: MOJE KURSY -->
                 <div id="tab-kursy" class="student-tab-content space-y-6">
                     <div class="grid grid-cols-1 xl:grid-cols-12 gap-6">
-                        <!-- Odtwarzacz wideo -->
-                        <div class="xl:col-span-7 bg-white rounded-3xl p-5 sm:p-6 border border-black/5 shadow-sm">
-                            <div class="flex items-center justify-between mb-3">
+                        <div class="xl:col-span-7 bg-white rounded-3xl p-5 sm:p-6 border border-black/5 shadow-sm space-y-4">
+                            <div class="flex items-center justify-between">
                                 <span id="lesson-badge" class="bg-brandLime/20 text-brandDark text-xs font-bold px-3 py-1 rounded-full">Dział 1 • Lekcja 1.1</span>
                                 <span class="text-xs text-emerald-600 font-bold">✓ Aktywny</span>
                             </div>
-                            <h3 id="lesson-title" class="text-lg sm:text-xl font-extrabold text-brandDark mb-4">
+                            <h3 id="lesson-title" class="text-lg sm:text-xl font-extrabold text-brandDark">
                                 1.1. Działania i kolejność wykonywania działań
                             </h3>
-                            <div class="aspect-video bg-brandDark rounded-2xl overflow-hidden mb-4 border border-black/10">
+                            <div class="aspect-video bg-brandDark rounded-2xl overflow-hidden border border-black/10">
                                 <iframe id="lesson-video-frame" class="w-full h-full" src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Lekcja wideo" frameborder="0" allowfullscreen></iframe>
+                            </div>
+                            <div class="bg-cream rounded-2xl p-4 border border-black/5 flex items-center justify-between">
+                                <div>
+                                    <h4 class="font-bold text-sm text-brandDark">Zestaw zadań do tej lekcji</h4>
+                                    <p class="text-xs text-neutral-500">Pobierz plik PDF z zadaniami i kluczem.</p>
+                                </div>
+                                <a id="lesson-pdf-link" href="#" target="_blank" class="bg-brandBlue text-white font-bold text-xs px-4 py-2.5 rounded-xl hover:bg-blue-700 transition">Pobierz PDF &darr;</a>
                             </div>
                         </div>
 
-                        <!-- Spis lekcji do wyboru -->
-                        <div class="xl:col-span-5 bg-white rounded-3xl p-5 border border-black/5 shadow-sm max-h-[480px] overflow-y-auto">
-                            <h4 class="font-extrabold text-xs uppercase tracking-wider text-neutral-500 mb-3">Wybierz lekcję</h4>
-                            <div class="space-y-2 text-sm">
-                                <div class="font-bold text-brandBlue text-[11px] uppercase pt-1">1. Liczby i działania</div>
-                                <button onclick="selectLesson('Dział 1 • Lekcja 1.1', '1.1. Kolejność działań', 'https://www.youtube.com/embed/dQw4w9WgXcQ')" class="w-full text-left p-2.5 rounded-xl bg-cream hover:bg-blue-50 font-semibold text-xs text-brandDark transition flex justify-between items-center">
-                                    <span>1.1. Kolejność działań</span>
-                                    <span class="text-brandBlue">▶</span>
+                        <div class="xl:col-span-5 bg-white rounded-3xl p-5 border border-black/5 shadow-sm max-h-[580px] overflow-y-auto space-y-4">
+                            <h4 class="font-extrabold text-xs uppercase tracking-wider text-neutral-500">Wszystkie 11 działów E8</h4>
+                            
+                            <div class="space-y-1.5">
+                                <div class="font-bold text-brandBlue text-[11px] uppercase">1. Liczby i działania</div>
+                                <button onclick="selectLesson('Dział 1 • 1.1', '1.1. Kolejność działań', 'https://www.youtube.com/embed/dQw4w9WgXcQ', '#')" class="w-full text-left p-2 rounded-xl bg-cream hover:bg-blue-50 font-medium text-xs text-brandDark transition flex justify-between items-center">
+                                    <span>1.1. Kolejność działań</span> <span class="text-brandBlue">▶</span>
                                 </button>
-                                <button onclick="selectLesson('Dział 1 • Lekcja 1.2', '1.2. Ułamki zwykłe i dziesiętne', 'https://www.youtube.com/embed/dQw4w9WgXcQ')" class="w-full text-left p-2.5 rounded-xl bg-cream hover:bg-blue-50 font-semibold text-xs text-brandDark transition flex justify-between items-center">
-                                    <span>1.2. Ułamki zwykłe i dziesiętne</span>
-                                    <span class="text-brandBlue">▶</span>
+                                <button onclick="selectLesson('Dział 1 • 1.2', '1.2. Ułamki zwykłe i dziesiętne', 'https://www.youtube.com/embed/dQw4w9WgXcQ', '#')" class="w-full text-left p-2 rounded-xl bg-cream hover:bg-blue-50 font-medium text-xs text-brandDark transition flex justify-between items-center">
+                                    <span>1.2. Ułamki zwykłe i dziesiętne</span> <span class="text-brandBlue">▶</span>
                                 </button>
-                                <button onclick="selectLesson('Dział 1 • Lekcja 1.5', '1.5. Potęgi i pierwiastki', 'https://www.youtube.com/embed/dQw4w9WgXcQ')" class="w-full text-left p-2.5 rounded-xl bg-cream hover:bg-blue-50 font-semibold text-xs text-brandDark transition flex justify-between items-center">
-                                    <span>1.5. Potęgi i pierwiastki</span>
-                                    <span class="text-brandBlue">▶</span>
+                                <button onclick="selectLesson('Dział 1 • 1.5', '1.5. Potęgi i pierwiastki', 'https://www.youtube.com/embed/dQw4w9WgXcQ', '#')" class="w-full text-left p-2 rounded-xl bg-cream hover:bg-blue-50 font-medium text-xs text-brandDark transition flex justify-between items-center">
+                                    <span>1.5. Potęgi i pierwiastki</span> <span class="text-brandBlue">▶</span>
                                 </button>
-                                <div class="font-bold text-brandBlue text-[11px] uppercase pt-2">8. Geometria płaska</div>
-                                <button onclick="selectLesson('Dział 8 • Lekcja 8.4', '8.4. Twierdzenie Pitagorasa', 'https://www.youtube.com/embed/dQw4w9WgXcQ')" class="w-full text-left p-2.5 rounded-xl bg-cream hover:bg-blue-50 font-semibold text-xs text-brandDark transition flex justify-between items-center">
-                                    <span>8.4. Twierdzenie Pitagorasa</span>
-                                    <span class="text-brandBlue">▶</span>
+                            </div>
+
+                            <div class="space-y-1.5 pt-2">
+                                <div class="font-bold text-brandBlue text-[11px] uppercase">2. Procenty</div>
+                                <button onclick="selectLesson('Dział 2 • 2.1', '2.1. Obliczenia procentowe', 'https://www.youtube.com/embed/dQw4w9WgXcQ', '#')" class="w-full text-left p-2 rounded-xl bg-cream hover:bg-blue-50 font-medium text-xs text-brandDark transition flex justify-between items-center">
+                                    <span>2.1. Obliczenia procentowe</span> <span class="text-brandBlue">▶</span>
+                                </button>
+                            </div>
+
+                            <div class="space-y-1.5 pt-2">
+                                <div class="font-bold text-brandBlue text-[11px] uppercase">8. Geometria płaska</div>
+                                <button onclick="selectLesson('Dział 8 • 8.4', '8.4. Twierdzenie Pitagorasa', 'https://www.youtube.com/embed/dQw4w9WgXcQ', '#')" class="w-full text-left p-2 rounded-xl bg-cream hover:bg-blue-50 font-medium text-xs text-brandDark transition flex justify-between items-center">
+                                    <span>8.4. Twierdzenie Pitagorasa</span> <span class="text-brandBlue">▶</span>
+                                </button>
+                            </div>
+
+                            <div class="space-y-1.5 pt-2">
+                                <div class="font-bold text-brandBlue text-[11px] uppercase">11. Finałowe szlify</div>
+                                <button onclick="selectLesson('Dział 11 • 11.4', '11.4. Pełne arkusze CKE', 'https://www.youtube.com/embed/dQw4w9WgXcQ', '#')" class="w-full text-left p-2 rounded-xl bg-cream hover:bg-blue-50 font-medium text-xs text-brandDark transition flex justify-between items-center">
+                                    <span>11.4. Pełne arkusze CKE</span> <span class="text-brandBlue">▶</span>
                                 </button>
                             </div>
                         </div>
@@ -247,13 +262,6 @@
                                 </div>
                                 <a href="#" target="_blank" class="bg-brandBlue text-white font-bold text-xs px-4 py-2.5 rounded-xl hover:bg-blue-700 transition">Pobierz PDF &darr;</a>
                             </div>
-                            <div class="bg-cream p-4 rounded-2xl flex items-center justify-between border border-black/5">
-                                <div>
-                                    <h4 class="font-bold text-sm text-brandDark">Wielki Arkusz Próbny CKE E8 + Wideo Rozwiązania</h4>
-                                    <p class="text-xs text-neutral-500">Format PDF • Oficjalny arkusz treningowy</p>
-                                </div>
-                                <a href="#" target="_blank" class="bg-brandBlue text-white font-bold text-xs px-4 py-2.5 rounded-xl hover:bg-blue-700 transition">Pobierz PDF &darr;</a>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -276,17 +284,6 @@
                             </div>
                             <p class="text-[11px] text-neutral-500">Przerobiono 4 z 11 głównych działów kursu.</p>
                         </div>
-
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <div class="bg-blue-50 border border-brandBlue/20 p-4 rounded-2xl">
-                                <span class="text-2xl font-black text-brandBlue block">11 / 33</span>
-                                <span class="text-xs font-bold text-neutral-700">Obejrzane lekcje wideo</span>
-                            </div>
-                            <div class="bg-lime-50 border border-brandLime/40 p-4 rounded-2xl">
-                                <span class="text-2xl font-black text-emerald-600 block">Aktywny</span>
-                                <span class="text-xs font-bold text-neutral-700">Status dostępu (12 mies.)</span>
-                            </div>
-                        </div>
                     </div>
                 </div>
 
@@ -304,13 +301,6 @@
                             <div class="bg-cream p-4 rounded-2xl border border-black/5">
                                 <span class="text-xs text-neutral-400 block font-bold uppercase">Typ dostępu</span>
                                 <span class="font-bold text-emerald-600">Pełny dostęp roczny (Egzamin Ósmoklasisty)</span>
-                            </div>
-                            <div class="bg-cream p-4 rounded-2xl border border-black/5 flex items-center justify-between">
-                                <div>
-                                    <span class="text-xs text-neutral-400 block font-bold uppercase">Hasło do konta</span>
-                                    <span class="font-semibold text-neutral-700">••••••••••••</span>
-                                </div>
-                                <button onclick="alert('W celu zmiany hasła skontaktuj się przez Facebooka!')" class="text-xs font-bold text-brandBlue hover:underline">Zmień hasło</button>
                             </div>
                         </div>
                     </div>
@@ -377,6 +367,7 @@
         <!-- SEKCJA KURSU -->
         <section id="kurs" class="scroll-mt-24 pt-4">
             
+            <!-- WIDOK 1: Karta główna kursu -->
             <div id="course-overview" class="animate-fade-in">
                 <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
                     <div>
@@ -421,15 +412,83 @@
                 </div>
             </div>
 
-            <!-- SZCZEGÓŁY KURSU (WIDOK PRZED ZAKUPEM) -->
+            <!-- WIDOK 2: Po kliknięciu w kurs – LAPTOP + STRIPE + 11 DZIAŁÓW -->
             <div id="course-details" class="hidden animate-fade-in">
                 <button onclick="showOverview()" class="inline-flex items-center gap-2 text-sm font-semibold text-neutral-600 hover:text-brandBlue mb-6 transition">
                     &larr; Wróć do widoku głównego
                 </button>
 
                 <div class="bg-white rounded-[32px] p-6 sm:p-10 shadow-[0_8px_40px_rgba(0,0,0,0.04)] border border-black/5">
+                    
+                    <!-- GÓRNA SEKCJA: LAPTOP + PŁATNOŚĆ STRIPE -->
                     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center pb-12 border-b border-neutral-200">
+                        
+                        <!-- LEWA KOLUMNA: Wizualizacja laptopa -->
                         <div class="lg:col-span-6">
+                            <div class="relative mx-auto max-w-lg">
+                                <div class="bg-[#141414] rounded-t-2xl p-2.5 sm:p-3.5 shadow-2xl border-2 border-neutral-800 relative">
+                                    <div class="w-2 h-2 rounded-full bg-neutral-700 mx-auto mb-2"></div>
+                                    
+                                    <div class="bg-[#FAF9F5] rounded-lg overflow-hidden border border-black/10 aspect-[16/10] flex flex-col justify-between p-3 sm:p-4 text-left select-none">
+                                        <div class="flex items-center justify-between bg-white px-3 py-1.5 rounded-full shadow-sm border border-black/5">
+                                            <div class="flex items-center gap-1.5">
+                                                <span class="w-2 h-2 rounded-full bg-red-400"></span>
+                                                <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+                                                <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                                            </div>
+                                            <span class="font-display text-xs tracking-wider"><span class="text-brandDark">DAILY</span><span class="text-brandBlue">MATMA</span> • PLATFORMA</span>
+                                            <span class="text-[9px] bg-brandLime/30 text-brandDark font-bold px-2 py-0.5 rounded-full">E8</span>
+                                        </div>
+
+                                        <div class="grid grid-cols-12 gap-2.5 my-auto py-2">
+                                            <div class="col-span-7 bg-[#182212] rounded-xl p-3 text-white flex flex-col justify-between relative overflow-hidden border border-brandLime/30">
+                                                <span class="text-[9px] font-bold text-brandLime uppercase">Lekcja 1.5 • Wideo</span>
+                                                <div class="my-2 flex items-center justify-center">
+                                                    <div class="w-9 h-9 rounded-full bg-brandLime text-brandDark flex items-center justify-center shadow-md">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 fill-current ml-0.5" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <p class="text-[11px] font-bold leading-tight">Potęgi i pierwiastki</p>
+                                                    <div class="w-full bg-white/20 h-1 rounded-full mt-1.5 overflow-hidden">
+                                                        <div class="bg-brandLime w-2/3 h-full"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-span-5 bg-white rounded-xl p-2.5 border border-black/5 flex flex-col justify-between">
+                                                <span class="text-[9px] font-extrabold text-brandBlue uppercase">Twoje działy</span>
+                                                <div class="space-y-1.5 my-1">
+                                                    <div class="bg-cream p-1.5 rounded text-[9px] font-semibold flex items-center justify-between">
+                                                        <span>1. Liczby</span>
+                                                        <span class="text-emerald-600 font-bold">✓</span>
+                                                    </div>
+                                                    <div class="bg-cream p-1.5 rounded text-[9px] font-semibold flex items-center justify-between">
+                                                        <span>2. Procenty</span>
+                                                        <span class="text-brandBlue font-bold">▶</span>
+                                                    </div>
+                                                </div>
+                                                <div class="bg-brandBlue text-white text-[9px] font-bold text-center py-1 rounded">
+                                                    Zestaw zadań + klucz
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="flex items-center justify-between text-[9px] text-neutral-500 border-t border-black/5 pt-1.5">
+                                            <span>11 działów • 33 lekcje wideo</span>
+                                            <span class="font-bold text-brandDark">Dostęp 24/7</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="bg-gradient-to-b from-neutral-300 to-neutral-400 h-3.5 sm:h-4 rounded-b-2xl mx-[-12px] sm:mx-[-18px] shadow-lg relative flex justify-center">
+                                    <div class="w-16 sm:w-24 h-1.5 bg-neutral-500/50 rounded-b-md"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- PRAWA KOLUMNA: Boks płatności Stripe -->
+                        <div class="lg:col-span-6 space-y-5">
                             <div class="bg-white rounded-3xl p-6 border-2 border-brandBlue/30 shadow-lg text-center">
                                 <div class="flex items-baseline justify-center gap-3">
                                     <span class="text-xl font-bold text-neutral-400 line-through">250 PLN</span>
@@ -447,6 +506,33 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- DOLNA SEKCJA: 11 DZIAŁÓW -->
+                    <div class="pt-10">
+                        <div class="mb-6">
+                            <span class="text-brandBlue font-bold text-xs uppercase tracking-widest">PEŁNY SPIS TREŚCI</span>
+                            <h4 class="text-2xl font-extrabold text-brandDark mt-1">Wszystkie 11 działów w kursie</h4>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                            <div class="p-6 rounded-2xl bg-cream border border-black/5">
+                                <h4 class="font-bold text-lg text-brandDark mb-2">1. Liczby i działania</h4>
+                                <p class="text-xs text-neutral-600">Kolejność działań, ułamki, potęgi i pierwiastki (Wideo + Zadania)</p>
+                            </div>
+                            <div class="p-6 rounded-2xl bg-cream border border-black/5">
+                                <h4 class="font-bold text-lg text-brandDark mb-2">2. Procenty</h4>
+                                <p class="text-xs text-neutral-600">Obliczenia procentowe, podwyżki i obniżki (Wideo + Zadania)</p>
+                            </div>
+                            <div class="p-6 rounded-2xl bg-cream border border-black/5">
+                                <h4 class="font-bold text-lg text-brandDark mb-2">8. Geometria płaska</h4>
+                                <p class="text-xs text-neutral-600">Kąty, trójkąty, twierdzenie Pitagorasa (Wideo + Zadania)</p>
+                            </div>
+                            <div class="p-6 rounded-2xl bg-cream border border-black/5">
+                                <h4 class="font-bold text-lg text-brandDark mb-2">11. Finałowe szlify egzaminacyjne</h4>
+                                <p class="text-xs text-neutral-600">Zadania zamknięte, otwarte i pełne arkusze CKE</p>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
@@ -584,7 +670,6 @@
             location.reload();
         }
 
-        // Przełączanie zakładek w panelu kursanta
         function switchStudentTab(tabName) {
             const tabs = ['kursy', 'materialy', 'postep', 'konto'];
             tabs.forEach(t => {
@@ -597,10 +682,11 @@
             document.getElementById('menu-' + tabName).className = 'w-full text-left px-4 py-3 rounded-2xl font-bold text-sm bg-brandBlue text-white transition flex items-center gap-3 shadow-sm';
         }
 
-        function selectLesson(badge, title, videoUrl) {
+        function selectLesson(badge, title, videoUrl, pdfUrl) {
             document.getElementById('lesson-badge').innerText = badge;
             document.getElementById('lesson-title').innerText = title;
             document.getElementById('lesson-video-frame').src = videoUrl;
+            document.getElementById('lesson-pdf-link').href = pdfUrl;
         }
     </script>
 </body>
