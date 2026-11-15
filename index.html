@@ -1,697 +1,343 @@
 <!DOCTYPE html>
-<html lang="pl">
+<html lang="pl" class="scroll-smooth">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daily Matma - Egzamin Ósmoklasisty i Korepetycje</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Biblioteka Supabase -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        display: ['"Bebas Neue"', 'sans-serif'],
-                        sans: ['Inter', 'sans-serif'],
-                    },
-                    colors: {
-                        cream: '#FAF9F5',
-                        brandBlue: '#2563EB',
-                        brandLime: '#84CC16',
-                        brandDark: '#111111',
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        body {
-            background-color: #FAF9F5;
-            color: #111111;
-            font-family: 'Inter', sans-serif;
-        }
-        .matma-glow {
-            text-shadow: 0 0 45px rgba(37, 99, 235, 0.3);
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-fade-in {
-            animation: fadeIn 0.35s ease-out forwards;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DailyMatma – Kursy Maturalne i Korepetycje</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #090d16;
+      color: #f8fafc;
+    }
+    .glass {
+      background: rgba(17, 24, 39, 0.78);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .gradient-text {
+      background: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+  </style>
 </head>
-<body class="antialiased selection:bg-brandBlue selection:text-white">
+<body class="antialiased selection:bg-sky-500 selection:text-white">
 
-    <!-- PASEK U GÓRY -->
-    <header class="pt-6 px-4 sticky top-0 z-40">
-        <div class="max-w-6xl mx-auto bg-white/95 backdrop-blur-md rounded-full px-5 sm:px-6 py-3 shadow-[0_4px_25px_rgba(0,0,0,0.04)] border border-black/5 flex items-center justify-between gap-4">
-            <a href="#" onclick="showOverview()" class="font-display text-2xl tracking-wide flex items-center shrink-0">
-                <span class="text-brandDark">DAILY</span><span class="text-brandBlue">MATMA</span>
-            </a>
-
-            <div class="hidden lg:flex items-center space-x-6 text-xs font-semibold text-neutral-600">
-                <span class="flex items-center gap-1.5">
-                    <span class="w-2 h-2 rounded-full bg-brandBlue"></span>
-                    11 działów E8
-                </span>
-                <span class="flex items-center gap-1.5">
-                    <span class="w-2 h-2 rounded-full bg-brandLime"></span>
-                    Wideo + zadania do każdego tematu
-                </span>
-                <span class="flex items-center gap-1.5">
-                    <span class="w-2 h-2 rounded-full bg-brandDark"></span>
-                    Wsparcie 1:1
-                </span>
-            </div>
-
-            <div class="flex items-center gap-2 sm:gap-3 shrink-0">
-                <button id="btn-open-auth" onclick="openAuthModal()" class="text-xs sm:text-sm font-bold text-brandDark hover:text-brandBlue px-3 py-2 transition">
-                    Zaloguj się
-                </button>
-
-                <button id="btn-student-zone" onclick="openStudentDashboard()" class="hidden bg-brandLime hover:bg-lime-400 text-brandDark text-xs sm:text-sm font-extrabold px-4 py-2 rounded-full transition flex items-center gap-1.5">
-                    🎓 Strefa Kursanta
-                </button>
-                <button id="btn-logout" onclick="logoutUser()" class="hidden text-xs font-semibold text-neutral-500 hover:text-red-600 px-2 py-2 transition">
-                    Wyloguj
-                </button>
-
-                <button id="btn-nav-buy" onclick="openCourseDetails()" class="bg-brandDark hover:bg-neutral-800 text-white text-xs sm:text-sm font-semibold px-4 sm:px-5 py-2.5 rounded-full transition flex items-center gap-1.5">
-                    Kurs E8 • <span class="text-brandLime font-bold">100 zł</span> <span>&rarr;</span>
-                </button>
-            </div>
-        </div>
-    </header>
-
-    <!-- OKNO LOGOWANIA / REJESTRACJI -->
-    <div id="auth-modal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-        <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl relative animate-fade-in">
-            <button onclick="closeAuthModal()" class="absolute top-5 right-5 text-neutral-400 hover:text-brandDark text-xl font-bold">&times;</button>
-            
-            <div class="text-center mb-6">
-                <span class="font-display text-2xl tracking-wide"><span class="text-brandDark">DAILY</span><span class="text-brandBlue">MATMA</span></span>
-                <h3 id="auth-title" class="text-2xl font-extrabold text-brandDark mt-2">Zaloguj się do kursu</h3>
-                <p id="auth-subtitle" class="text-xs text-neutral-500 mt-1">Wpisz swój e-mail i hasło, aby uzyskać dostęp do materiałów.</p>
-            </div>
-
-            <div class="grid grid-cols-2 bg-neutral-100 p-1 rounded-xl mb-6 text-xs font-bold">
-                <button type="button" id="tab-login" onclick="switchAuthMode('login')" class="py-2 rounded-lg bg-white text-brandDark shadow-sm transition">Logowanie</button>
-                <button type="button" id="tab-register" onclick="switchAuthMode('register')" class="py-2 rounded-lg text-neutral-500 hover:text-brandDark transition">Załóż konto</button>
-            </div>
-
-            <form onsubmit="handleAuthSubmit(event)" class="space-y-4">
-                <div>
-                    <label class="block text-xs font-bold text-neutral-700 mb-1">Adres e-mail (taki sam jak przy zakupie)</label>
-                    <input type="email" id="auth-email" required placeholder="twoj@email.pl" class="w-full px-4 py-3 rounded-xl border border-neutral-300 focus:border-brandBlue focus:outline-none text-sm">
-                </div>
-                <div>
-                    <label class="block text-xs font-bold text-neutral-700 mb-1">Hasło (min. 6 znaków)</label>
-                    <input type="password" id="auth-password" required minlength="6" placeholder="••••••••" class="w-full px-4 py-3 rounded-xl border border-neutral-300 focus:border-brandBlue focus:outline-none text-sm">
-                </div>
-
-                <div id="auth-message" class="hidden text-xs font-semibold p-3 rounded-xl"></div>
-
-                <button type="submit" id="auth-submit-btn" class="w-full bg-brandBlue hover:bg-blue-700 text-white font-bold text-sm py-3.5 rounded-xl transition shadow-md">
-                    Zaloguj się &rarr;
-                </button>
-            </form>
-        </div>
+  <!-- NAWIGACJA -->
+  <header class="sticky top-0 z-40 glass border-b border-slate-800/80">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <a href="#" onclick="showMainView(); return false;" class="text-xl font-extrabold tracking-tight flex items-center gap-2">
+        <span class="w-8 h-8 rounded-lg bg-sky-500/20 border border-sky-400/30 flex items-center justify-center text-sky-400 font-bold">∑</span>
+        <span>Daily<span class="text-sky-400">Matma</span></span>
+      </a>
+      <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
+        <a href="#kursy" onclick="showMainView()" class="hover:text-white transition">Kursy</a>
+        <a href="#korepetycje" onclick="showMainView()" class="hover:text-white transition">Korepetycje</a>
+        <a href="#opinie" onclick="showMainView()" class="hover:text-white transition">Jak to działa</a>
+      </nav>
+      <a href="https://www.tiktok.com/@dailymatma335" target="_blank" rel="noopener noreferrer" class="text-xs sm:text-sm font-semibold bg-slate-800 hover:bg-slate-700 text-white px-4 py-2 rounded-xl border border-slate-700 transition flex items-center gap-2">
+        <span>TikTok @dailymatma335</span>
+      </a>
     </div>
+  </header>
 
-    <!-- STREFA KURSANTA (ZAKŁADKI) -->
-    <section id="student-dashboard" class="hidden max-w-6xl mx-auto px-4 pt-8 pb-24 animate-fade-in">
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
-            <div>
-                <span class="text-xs font-bold text-brandBlue uppercase tracking-wider">PANEL KURSANTA</span>
-                <h2 class="text-2xl sm:text-3xl font-extrabold text-brandDark">Witaj w swojej strefie nauki!</h2>
-                <p id="logged-user-email" class="text-xs text-neutral-500 mt-0.5"></p>
-            </div>
-            <button onclick="showOverview()" class="text-sm font-semibold text-neutral-600 hover:text-brandBlue transition self-start md:self-auto">
-                &larr; Wróć na stronę główną
-            </button>
+  <!-- GŁÓWNA STRONA -->
+  <main id="main-view">
+    <!-- HERO -->
+    <section class="relative overflow-hidden pt-16 pb-20 sm:pt-24 sm:pb-28">
+      <div class="max-w-5xl mx-auto px-4 sm:px-6 text-center">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-500/10 border border-sky-500/20 text-sky-400 text-xs font-semibold mb-6">
+          <span>Matura z Matematyki bez stresu</span>
         </div>
-
-        <!-- WIDOK BRAKU DOSTĘPU -->
-        <div id="no-access-box" class="hidden bg-white rounded-3xl p-8 sm:p-12 border-2 border-amber-400/50 text-center max-w-2xl mx-auto shadow-lg mb-8">
-            <div class="w-14 h-14 rounded-2xl bg-amber-100 text-amber-600 flex items-center justify-center mx-auto text-2xl font-bold mb-4">
-                🔒
-            </div>
-            <h3 class="text-2xl font-extrabold text-brandDark mb-2">Brak aktywnego dostępu do kursu</h3>
-            <p class="text-sm text-neutral-600 leading-relaxed mb-6">
-                Twoje konto jest utworzone, ale nie odnotowaliśmy jeszcze zakupu. Opłać dostęp przez Stripe, aby odblokować materiały (podaj e-mail: <strong id="no-access-email" class="text-brandDark"></strong>).
-            </p>
-            <a href="#TWOJ_LINK_ZE_STRIPE" target="_blank" rel="noopener noreferrer" class="inline-block bg-brandBlue hover:bg-blue-700 text-white font-extrabold text-sm px-8 py-4 rounded-2xl transition shadow-md uppercase tracking-wide">
-                KUP DOSTĘP (100 PLN) &rarr;
-            </a>
+        <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight leading-tight mb-6">
+          Zrozum matematykę <br class="hidden sm:block" />
+          <span class="gradient-text">konkretnie i na temat.</span>
+        </h1>
+        <p class="text-slate-400 text-base sm:text-lg max-w-2xl mx-auto mb-10">
+          Krótkie lekcje wideo, pewniaki maturalne i zadania krok po kroku. Zobacz spis rozdziałów i zacznij naukę jeszcze dziś.
+        </p>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <a href="#kursy" class="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold text-sm transition shadow-lg shadow-sky-500/20">
+            Zobacz dostępne kursy
+          </a>
+          <a href="#korepetycje" class="w-full sm:w-auto px-7 py-3.5 rounded-xl glass hover:bg-slate-800/80 text-white font-semibold text-sm transition">
+            Umów korepetycje
+          </a>
         </div>
-
-        <!-- GŁÓWNY UKŁAD STREFY KURSANTA -->
-        <div id="student-main-content" class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-            
-            <!-- MENU BOCZNE -->
-            <div class="lg:col-span-3 bg-white rounded-3xl p-4 border border-black/5 shadow-sm h-fit space-y-2">
-                <button onclick="switchStudentTab('kursy')" id="menu-kursy" class="w-full text-left px-4 py-3 rounded-2xl font-bold text-sm bg-brandBlue text-white transition flex items-center gap-3 shadow-sm">
-                    <span>📚</span> Moje kursy
-                </button>
-                <button onclick="switchStudentTab('materialy')" id="menu-materialy" class="w-full text-left px-4 py-3 rounded-2xl font-bold text-sm text-neutral-700 hover:bg-cream transition flex items-center gap-3">
-                    <span>📂</span> Kupione materiały
-                </button>
-                <button onclick="switchStudentTab('postep')" id="menu-postep" class="w-full text-left px-4 py-3 rounded-2xl font-bold text-sm text-neutral-700 hover:bg-cream transition flex items-center gap-3">
-                    <span>📊</span> Postęp nauki
-                </button>
-                <button onclick="switchStudentTab('konto')" id="menu-konto" class="w-full text-left px-4 py-3 rounded-2xl font-bold text-sm text-neutral-700 hover:bg-cream transition flex items-center gap-3">
-                    <span>⚙️</span> Dane konta
-                </button>
-                <div class="border-t border-neutral-200 pt-2 mt-2">
-                    <button onclick="logoutUser()" class="w-full text-left px-4 py-3 rounded-2xl font-bold text-sm text-red-600 hover:bg-red-50 transition flex items-center gap-3">
-                        <span>🚪</span> Wylogowanie
-                    </button>
-                </div>
-            </div>
-
-            <!-- TREŚĆ ZAKŁADEK -->
-            <div class="lg:col-span-9">
-                
-                <!-- ZAKŁADKA 1: MOJE KURSY -->
-                <div id="tab-kursy" class="student-tab-content space-y-6">
-                    <div class="grid grid-cols-1 xl:grid-cols-12 gap-6">
-                        <div class="xl:col-span-7 bg-white rounded-3xl p-5 sm:p-6 border border-black/5 shadow-sm space-y-4">
-                            <div class="flex items-center justify-between">
-                                <span id="lesson-badge" class="bg-brandLime/20 text-brandDark text-xs font-bold px-3 py-1 rounded-full">Dział 1 • Lekcja 1.1</span>
-                                <span class="text-xs text-emerald-600 font-bold">✓ Aktywny</span>
-                            </div>
-                            <h3 id="lesson-title" class="text-lg sm:text-xl font-extrabold text-brandDark">
-                                1.1. Działania i kolejność wykonywania działań
-                            </h3>
-                            <div class="aspect-video bg-brandDark rounded-2xl overflow-hidden border border-black/10">
-                                <iframe id="lesson-video-frame" class="w-full h-full" src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Lekcja wideo" frameborder="0" allowfullscreen></iframe>
-                            </div>
-                            <div class="bg-cream rounded-2xl p-4 border border-black/5 flex items-center justify-between">
-                                <div>
-                                    <h4 class="font-bold text-sm text-brandDark">Zestaw zadań do tej lekcji</h4>
-                                    <p class="text-xs text-neutral-500">Pobierz plik PDF z zadaniami i kluczem.</p>
-                                </div>
-                                <a id="lesson-pdf-link" href="#" target="_blank" class="bg-brandBlue text-white font-bold text-xs px-4 py-2.5 rounded-xl hover:bg-blue-700 transition">Pobierz PDF &darr;</a>
-                            </div>
-                        </div>
-
-                        <div class="xl:col-span-5 bg-white rounded-3xl p-5 border border-black/5 shadow-sm max-h-[580px] overflow-y-auto space-y-4">
-                            <h4 class="font-extrabold text-xs uppercase tracking-wider text-neutral-500">Wszystkie 11 działów E8</h4>
-                            
-                            <div class="space-y-1.5">
-                                <div class="font-bold text-brandBlue text-[11px] uppercase">1. Liczby i działania</div>
-                                <button onclick="selectLesson('Dział 1 • 1.1', '1.1. Kolejność działań', 'https://www.youtube.com/embed/dQw4w9WgXcQ', '#')" class="w-full text-left p-2 rounded-xl bg-cream hover:bg-blue-50 font-medium text-xs text-brandDark transition flex justify-between items-center">
-                                    <span>1.1. Kolejność działań</span> <span class="text-brandBlue">▶</span>
-                                </button>
-                                <button onclick="selectLesson('Dział 1 • 1.2', '1.2. Ułamki zwykłe i dziesiętne', 'https://www.youtube.com/embed/dQw4w9WgXcQ', '#')" class="w-full text-left p-2 rounded-xl bg-cream hover:bg-blue-50 font-medium text-xs text-brandDark transition flex justify-between items-center">
-                                    <span>1.2. Ułamki zwykłe i dziesiętne</span> <span class="text-brandBlue">▶</span>
-                                </button>
-                                <button onclick="selectLesson('Dział 1 • 1.5', '1.5. Potęgi i pierwiastki', 'https://www.youtube.com/embed/dQw4w9WgXcQ', '#')" class="w-full text-left p-2 rounded-xl bg-cream hover:bg-blue-50 font-medium text-xs text-brandDark transition flex justify-between items-center">
-                                    <span>1.5. Potęgi i pierwiastki</span> <span class="text-brandBlue">▶</span>
-                                </button>
-                            </div>
-
-                            <div class="space-y-1.5 pt-2">
-                                <div class="font-bold text-brandBlue text-[11px] uppercase">2. Procenty</div>
-                                <button onclick="selectLesson('Dział 2 • 2.1', '2.1. Obliczenia procentowe', 'https://www.youtube.com/embed/dQw4w9WgXcQ', '#')" class="w-full text-left p-2 rounded-xl bg-cream hover:bg-blue-50 font-medium text-xs text-brandDark transition flex justify-between items-center">
-                                    <span>2.1. Obliczenia procentowe</span> <span class="text-brandBlue">▶</span>
-                                </button>
-                            </div>
-
-                            <div class="space-y-1.5 pt-2">
-                                <div class="font-bold text-brandBlue text-[11px] uppercase">8. Geometria płaska</div>
-                                <button onclick="selectLesson('Dział 8 • 8.4', '8.4. Twierdzenie Pitagorasa', 'https://www.youtube.com/embed/dQw4w9WgXcQ', '#')" class="w-full text-left p-2 rounded-xl bg-cream hover:bg-blue-50 font-medium text-xs text-brandDark transition flex justify-between items-center">
-                                    <span>8.4. Twierdzenie Pitagorasa</span> <span class="text-brandBlue">▶</span>
-                                </button>
-                            </div>
-
-                            <div class="space-y-1.5 pt-2">
-                                <div class="font-bold text-brandBlue text-[11px] uppercase">11. Finałowe szlify</div>
-                                <button onclick="selectLesson('Dział 11 • 11.4', '11.4. Pełne arkusze CKE', 'https://www.youtube.com/embed/dQw4w9WgXcQ', '#')" class="w-full text-left p-2 rounded-xl bg-cream hover:bg-blue-50 font-medium text-xs text-brandDark transition flex justify-between items-center">
-                                    <span>11.4. Pełne arkusze CKE</span> <span class="text-brandBlue">▶</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- ZAKŁADKA 2: KUPIONE MATERIAŁY -->
-                <div id="tab-materialy" class="student-tab-content hidden space-y-4">
-                    <div class="bg-white rounded-3xl p-6 border border-black/5 shadow-sm">
-                        <h3 class="text-xl font-extrabold text-brandDark mb-2">📂 Twoje pliki i materiały PDF</h3>
-                        <p class="text-xs text-neutral-500 mb-6">Wszystkie zestawy zadań, ściągawki i arkusze CKE przypisane do Twojego konta.</p>
-                        
-                        <div class="space-y-3">
-                            <div class="bg-cream p-4 rounded-2xl flex items-center justify-between border border-black/5">
-                                <div>
-                                    <h4 class="font-bold text-sm text-brandDark">Zestaw Zadań: Dział 1 - Liczby i działania</h4>
-                                    <p class="text-xs text-neutral-500">Format PDF • Zawiera klucz odpowiedzi</p>
-                                </div>
-                                <a href="#" target="_blank" class="bg-brandBlue text-white font-bold text-xs px-4 py-2.5 rounded-xl hover:bg-blue-700 transition">Pobierz PDF &darr;</a>
-                            </div>
-                            <div class="bg-cream p-4 rounded-2xl flex items-center justify-between border border-black/5">
-                                <div>
-                                    <h4 class="font-bold text-sm text-brandDark">Zestaw Zadań: Dział 8 - Geometria płaska</h4>
-                                    <p class="text-xs text-neutral-500">Format PDF • Zadania z dowodami geometrycznymi</p>
-                                </div>
-                                <a href="#" target="_blank" class="bg-brandBlue text-white font-bold text-xs px-4 py-2.5 rounded-xl hover:bg-blue-700 transition">Pobierz PDF &darr;</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- ZAKŁADKA 3: POSTĘP NAUKI -->
-                <div id="tab-postep" class="student-tab-content hidden space-y-4">
-                    <div class="bg-white rounded-3xl p-6 border border-black/5 shadow-sm space-y-6">
-                        <div>
-                            <h3 class="text-xl font-extrabold text-brandDark mb-1">📊 Twój postęp nauki</h3>
-                            <p class="text-xs text-neutral-500">Śledź stopień ukończenia materiału egzaminacyjnego.</p>
-                        </div>
-
-                        <div class="bg-cream p-5 rounded-2xl border border-black/5 space-y-3">
-                            <div class="flex justify-between text-xs font-bold text-brandDark">
-                                <span>Ukończenie całego kursu</span>
-                                <span class="text-brandBlue">35%</span>
-                            </div>
-                            <div class="w-full bg-neutral-200 h-3 rounded-full overflow-hidden">
-                                <div class="bg-brandBlue w-[35%] h-full rounded-full"></div>
-                            </div>
-                            <p class="text-[11px] text-neutral-500">Przerobiono 4 z 11 głównych działów kursu.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- ZAKŁADKA 4: DANE KONTA -->
-                <div id="tab-konto" class="student-tab-content hidden space-y-4">
-                    <div class="bg-white rounded-3xl p-6 border border-black/5 shadow-sm space-y-5">
-                        <h3 class="text-xl font-extrabold text-brandDark mb-1">⚙️ Zarządzanie kontem</h3>
-                        <p class="text-xs text-neutral-500">Szczegóły Twojego profilu oraz subskrypcji.</p>
-
-                        <div class="space-y-4 text-sm">
-                            <div class="bg-cream p-4 rounded-2xl border border-black/5">
-                                <span class="text-xs text-neutral-400 block font-bold uppercase">Adres e-mail przypisany do konta</span>
-                                <span id="account-view-email" class="font-bold text-brandDark text-base"></span>
-                            </div>
-                            <div class="bg-cream p-4 rounded-2xl border border-black/5">
-                                <span class="text-xs text-neutral-400 block font-bold uppercase">Typ dostępu</span>
-                                <span class="font-bold text-emerald-600">Pełny dostęp roczny (Egzamin Ósmoklasisty)</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
+      </div>
     </section>
 
-    <!-- GŁÓWNA STRONA SPRZEDAŻOWA -->
-    <main id="public-main" class="max-w-6xl mx-auto px-4 pt-10 pb-24">
-        
-        <!-- SEKCJA HERO -->
-        <section class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center py-6 lg:py-12">
-            <div class="lg:col-span-7 text-center lg:text-left">
-                <div class="inline-flex items-center gap-2 bg-brandBlue/10 text-brandBlue text-xs font-bold px-3.5 py-1.5 rounded-full mb-4">
-                    <span>MATEMATYKA BEZ STRESU</span>
-                </div>
-                <h1 class="font-display text-[88px] sm:text-[130px] xl:text-[155px] leading-[0.85] tracking-tight select-none">
-                    <span class="text-brandDark">DAILY</span><span class="text-brandBlue matma-glow">MATMA</span>
-                </h1>
-                <p class="text-neutral-600 text-base sm:text-lg max-w-xl mx-auto lg:mx-0 mt-5 leading-relaxed">
-                    Konkretne przygotowanie do Egzaminu Ósmoklasisty i indywidualne wsparcie, dzięki któremu zrozumiesz zadania zamiast uczyć się schematów na pamięć.
-                </p>
+    <!-- SEKCJA KURSÓW -->
+    <section id="kursy" class="py-16 sm:py-24 border-t border-slate-800/70">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6">
+        <div class="mb-12">
+          <h2 class="text-3xl sm:text-4xl font-extrabold mb-3">Kursy Maturalne</h2>
+          <p class="text-slate-400">Wybierz kurs, sprawdź jego rozdziały i przejdź do zakupu.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="courses-grid">
+          <!-- Kafelki kursów generowane automatycznie z JS poniżej -->
+        </div>
+      </div>
+    </section>
+
+    <!-- SEKCJA KOREPETYCJE (TIKTOK) -->
+    <section id="korepetycje" class="py-16 sm:py-24 border-t border-slate-800/70">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6">
+        <div class="glass rounded-3xl p-8 sm:p-12 text-center relative overflow-hidden border border-sky-500/20">
+          <span class="inline-block px-3 py-1 rounded-full bg-pink-500/15 text-pink-400 text-xs font-bold uppercase tracking-wider mb-4">
+            Korepetycje indywidualne
+          </span>
+          <h2 class="text-3xl sm:text-4xl font-extrabold mb-4">
+            Chcesz zapisać się na korki?
+          </h2>
+          <p class="text-slate-300 text-base sm:text-lg max-w-xl mx-auto mb-8">
+            Wszystkie zapisy i pytania o wolne terminy na korepetycje prowadzę wyłącznie przez wiadomość prywatną na moim TikToku: <strong class="text-white">@dailymatma335</strong>.
+          </p>
+          <a href="https://www.tiktok.com/@dailymatma335" target="_blank" rel="noopener noreferrer"
+             class="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-2xl bg-gradient-to-r from-sky-500 to-indigo-500 hover:from-sky-400 hover:to-indigo-400 text-white font-bold text-base shadow-lg shadow-sky-500/25 transition">
+            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg>
+            <span>Napisz na TikTok: @dailymatma335</span>
+          </a>
+          <p class="text-xs text-slate-400 mt-4">Kliknij przycisk powyżej, aby przejść bezpośrednio na profil i wysłać wiadomość.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- JAK TO DZIAŁA -->
+    <section id="opinie" class="py-16 border-t border-slate-800/70">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm">
+          <div class="glass p-6 rounded-2xl">
+            <div class="text-sky-400 font-bold text-lg mb-2">1. Wybierasz kurs</div>
+            <p class="text-slate-400">Klikasz „Sprawdź kurs” lub „Kupuję”, aby zobaczyć dokładny spis wszystkich rozdziałów i tematów.</p>
+          </div>
+          <div class="glass p-6 rounded-2xl">
+            <div class="text-sky-400 font-bold text-lg mb-2">2. Bezpieczna płatność Stripe</div>
+            <p class="text-slate-400">Po kliknięciu „Kup kurs” zostajesz przeniesiony bezpośrednio do szybkiej płatności Stripe (BLIK, karta, Apple Pay).</p>
+          </div>
+          <div class="glass p-6 rounded-2xl">
+            <div class="text-sky-400 font-bold text-lg mb-2">3. Uczysz się od razu</div>
+            <p class="text-slate-400">Otrzymujesz pełny dostęp do materiałów i przerabiasz działy we własnym tempie.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- DEDYKOWANA PODSTRONA KURSU (ROZDZIAŁY + PRZYCISK KUP STRIPE) -->
+  <section id="course-detail-view" class="hidden min-h-screen py-12 sm:py-20">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6">
+      <button onclick="showMainView()" class="inline-flex items-center gap-2 text-sm text-slate-400 hover:text-white mb-8 transition">
+        <span>← Wróć do wszystkich kursów</span>
+      </button>
+
+      <div class="glass rounded-3xl p-6 sm:p-10 border border-slate-700/80">
+        <div class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-800 pb-6 mb-8">
+          <div>
+            <span id="detail-badge" class="inline-block px-3 py-1 rounded-full bg-sky-500/15 text-sky-400 text-xs font-bold mb-3">
+              Kurs Maturalny
+            </span>
+            <h1 id="detail-title" class="text-2xl sm:text-4xl font-extrabold text-white"></h1>
+            <p id="detail-subtitle" class="text-slate-400 mt-2 text-sm sm:text-base"></p>
+          </div>
+          <div class="text-left sm:text-right">
+            <div class="text-xs text-slate-400 uppercase font-semibold">Cena dostępu</div>
+            <div id="detail-price" class="text-3xl sm:text-4xl font-extrabold text-sky-400"></div>
+          </div>
+        </div>
+
+        <!-- LISTA ROZDZIAŁÓW -->
+        <div class="mb-10">
+          <h2 class="text-xl font-bold mb-4 flex items-center gap-2">
+            <span>📚 Rozdziały i zawartość kursu:</span>
+          </h2>
+          <div id="detail-chapters" class="space-y-3">
+            <!-- Rozdziały ładowane dynamicznie -->
+          </div>
+        </div>
+
+        <!-- CO ZYSKUJESZ -->
+        <div class="bg-slate-900/80 rounded-2xl p-5 border border-slate-800 mb-8">
+          <h3 class="font-bold text-sm text-slate-200 mb-3">W pakiecie otrzymujesz:</h3>
+          <ul id="detail-perks" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-sm text-slate-300">
+          </ul>
+        </div>
+
+        <!-- PRZYCISK KUP (PRZEKIEROWANIE DO STRIPE) -->
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-slate-800">
+          <div class="text-xs text-slate-400 text-center sm:text-left">
+            Płatność obsługiwana przez <strong class="text-slate-200">Stripe</strong> (BLIK, karta, przelew).
+          </div>
+          <a id="detail-stripe-btn" href="https://buy.stripe.com/28EdRbgEBgsncY42BLg7e01" target="_blank" rel="noopener noreferrer"
+             class="w-full sm:w-auto text-center px-8 py-4 rounded-2xl bg-sky-500 hover:bg-sky-400 text-slate-950 font-extrabold text-base transition shadow-lg shadow-sky-500/25">
+            Kup kurs teraz →
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STOPKA -->
+  <footer class="border-t border-slate-800/80 py-10 text-center text-xs text-slate-500">
+    <div class="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div>© 2026 DailyMatma. Wszelkie prawa zastrzeżone.</div>
+      <div class="flex items-center gap-6">
+        <a href="https://www.tiktok.com/@dailymatma335" target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-white transition">
+          Korepetycje: TikTok @dailymatma335
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- DANE KURSÓW I LOGIKA -->
+  <script>
+    const STRIPE_LINK = "https://buy.stripe.com/28EdRbgEBgsncY42BLg7e01";
+
+    const courses = [
+      {
+        id: "matura-podstawa",
+        badge: "Najczęściej wybierany",
+        title: "Kurs Maturalny – Poziom Podstawowy",
+        shortDesc: "Kompletne przygotowanie do matury podstawowej. Wszystkie pewniaki i działy od zera.",
+        price: "99 zł",
+        stripeUrl: STRIPE_LINK,
+        chapters: [
+          { num: "Rozdział 1", name: "Liczby rzeczywiste, potęgi, pierwiastki i logarytmy", desc: "Pełne podstawy i najczęstsze zadania za 1–2 punkty." },
+          { num: "Rozdział 2", name: "Wyrażenia algebraiczne, równania i nierówności", desc: "Wzory skróconego mnożenia, nierówności kwadratowe i wymierne." },
+          { num: "Rozdział 3", name: "Funkcje i ich własności (liniowa, kwadratowa, wykładnicza)", desc: "Odczytywanie z wykresu, miejsca zerowe, postać kanoniczna i optymalizacja." },
+          { num: "Rozdział 4", name: "Ciągi arytmetyczne i geometryczne", desc: "Wzory na n-ty wyraz, sumę ciągu i zadania z lokatami." },
+          { num: "Rozdział 5", name: "Trygonometria w trójkącie prostokątnym i dowolnym", desc: "Tablice trygonometryczne, jedynka trygonometryczna, twierdzenie cosinusów." },
+          { num: "Rozdział 6", name: "Planimetria i Geometria analityczna", desc: "Pola figur, okręgi, równanie prostej, odległość punktów." },
+          { num: "Rozdział 7", name: "Stereometria, Kombinatoryka i Prawdopodobieństwo", desc: "Graniastosłupy, ostrosłupy, bryły obrotowe i pewniaki z rachunku prawdopodobieństwa." }
+        ],
+        perks: [
+          "✓ Dostęp do wszystkich lekcji wideo 24/7",
+          "✓ Rozwiązane arkusze i pewniaki CKE",
+          "✓ Notatki PDF do każdego rozdziału",
+          "✓ Natychmiastowy dostęp po płatności"
+        ]
+      },
+      {
+        id: "pewniaki-maturalne",
+        badge: "Szybka powtórka",
+        title: "Pewniaki Maturalne – Zestaw Zadań",
+        shortDesc: "Skondensowany kurs z zadaniami, które pojawiają się na każdym arkuszu CKE.",
+        price: "99 zł",
+        stripeUrl: STRIPE_LINK,
+        chapters: [
+          { num: "Rozdział 1", name: "Pewniaki zamknięte (pierwsze 15 zadań arkusza)", desc: "Jak zdobyć minimum 30% w 20 minut bez stresu." },
+          { num: "Rozdział 2", name: "Zadania dowodowe (algebraiczne i geometryczne)", desc: "Schematy, dzięki którym zgarniesz komplet punktów za dowody." },
+          { num: "Rozdział 3", name: "Funkcja kwadratowa i optymalizacja na maturze", desc: "Najważniejsze zadania otwarte za 3–4 punkty." },
+          { num: "Rozdział 4", name: "Ciągi i Prawdopodobieństwo – zadania otwarte", desc: "Rozwiązania krok po kroku zadań z ostatnich lat." }
+        ],
+        perks: [
+          "✓ Konkretne schematy pod klucz CKE",
+          "✓ Omówienie najczęstszych błędów",
+          "✓ Zestaw zadań treningowych z odpowiedziami",
+          "✓ Dostęp z telefonu i komputera"
+        ]
+      },
+      {
+        id: "funkcje-od-zera",
+        badge: "Dział specjalny",
+        title: "Funkcje od Zera do Matury",
+        shortDesc: "Opanuj najważniejszy dział na maturze. Funkcja liniowa, kwadratowa i wykresy.",
+        price: "99 zł",
+        stripeUrl: STRIPE_LINK,
+        chapters: [
+          { num: "Rozdział 1", name: "Dziedzina, zbiór wartości i czytanie wykresów", desc: "Wszystko, co musisz umieć na start." },
+          { num: "Rozdział 2", name: "Funkcja liniowa i układy równań", desc: "Równoległość, prostopadłość prostych i zadania z parametrem." },
+          { num: "Rozdział 3", name: "Funkcja kwadratowa bez tajemnic", desc: "Delta, wierzchołek paraboli, postać iloczynowa i kanoniczna." },
+          { num: "Rozdział 4", name: "Przekształcenia wykresów funkcji", desc: "Przesuwanie o wektor, symetrie względem osi OX i OY." }
+        ],
+        perks: [
+          "✓ Tłumaczenie prostym językiem od podstaw",
+          "✓ Kilkadziesiąt rozwiązanych przykładów",
+          "✓ Karta wzorów i podsumowanie działu",
+          "✓ Natychmiastowy dostęp po zakupie"
+        ]
+      }
+    ];
+
+    const coursesGrid = document.getElementById("courses-grid");
+
+    // Renderowanie kafelków kursów na stronie głównej
+    function renderCourses() {
+      coursesGrid.innerHTML = courses.map(course => `
+        <div class="glass rounded-2xl p-6 flex flex-col justify-between hover:border-sky-500/40 transition">
+          <div>
+            <div class="flex items-center justify-between gap-2 mb-4">
+              <span class="px-2.5 py-1 rounded-full bg-sky-500/15 text-sky-400 text-xs font-bold">
+                ${course.badge}
+              </span>
+              <span class="text-xl font-extrabold text-white">${course.price}</span>
             </div>
-
-            <!-- Karta korepetycji (Facebook) -->
-            <div class="lg:col-span-5">
-                <div class="bg-brandDark text-white rounded-3xl p-6 sm:p-7 shadow-2xl border border-white/10 relative overflow-hidden">
-                    <div class="absolute -top-12 -right-12 w-36 h-36 bg-brandBlue/25 rounded-full blur-2xl pointer-events-none"></div>
-
-                    <div class="flex items-start gap-4">
-                        <div class="w-12 h-12 rounded-2xl bg-brandBlue/20 border border-brandBlue/40 flex items-center justify-center shrink-0 text-brandBlue">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                            </svg>
-                        </div>
-
-                        <div>
-                            <span class="inline-block bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-[11px] font-bold px-2.5 py-0.5 rounded-md uppercase tracking-wider mb-2">
-                                Zapisy otwarte
-                            </span>
-                            <h2 class="font-bold text-lg sm:text-xl text-white leading-snug">
-                                Korepetycje indywidualne
-                            </h2>
-                            <p class="text-xs sm:text-sm text-neutral-300 mt-1.5 leading-relaxed">
-                                Wolne terminy! Aby ustalić godziny zajęć, napisz wiadomość na naszym <strong class="text-white">Facebooku (Daily Matma)</strong>.
-                            </p>
-                        </div>
-                    </div>
-
-                    <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" class="mt-6 w-full bg-brandBlue hover:bg-blue-700 text-white font-semibold text-sm py-3.5 px-5 rounded-xl transition flex items-center justify-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 fill-current" viewBox="0 0 24 24">
-                            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                        </svg>
-                        Napisz do mnie
-                    </a>
-                </div>
+            <h3 class="text-xl font-bold text-white mb-2">${course.title}</h3>
+            <p class="text-slate-400 text-sm mb-6 leading-relaxed">${course.shortDesc}</p>
+            <div class="text-xs text-slate-400 mb-6 border-t border-slate-800 pt-3">
+              Liczba rozdziałów: <strong class="text-slate-200">${course.chapters.length}</strong>
             </div>
-        </section>
+          </div>
 
-        <div class="border-t border-black/10 my-8"></div>
+          <!-- DWA PRZYCISKI: SPRAWDŹ KURS (SZCZEGÓŁY) ORAZ KUPUJĘ -->
+          <div class="grid grid-cols-2 gap-3 pt-2">
+            <button onclick="openCoursePage('${course.id}')"
+                    class="w-full py-3 px-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-semibold text-xs sm:text-sm border border-slate-700 transition">
+              Sprawdź kurs
+            </button>
+            <button onclick="openCoursePage('${course.id}')"
+                    class="w-full py-3 px-3 rounded-xl bg-sky-500 hover:bg-sky-400 text-slate-950 font-extrabold text-xs sm:text-sm transition shadow-md shadow-sky-500/20">
+              Kupuję
+            </button>
+          </div>
+        </div>
+      `).join("");
+    }
 
-        <!-- SEKCJA KURSU -->
-        <section id="kurs" class="scroll-mt-24 pt-4">
-            
-            <!-- WIDOK 1: Karta główna kursu -->
-            <div id="course-overview" class="animate-fade-in">
-                <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
-                    <div>
-                        <span class="text-brandBlue font-bold text-xs uppercase tracking-widest">OFERTA KURSOWA</span>
-                        <h2 class="font-display text-4xl sm:text-5xl tracking-wide uppercase mt-1">
-                            <span class="text-brandDark">JEDYNY TAKI </span><span class="text-brandBlue">KURS</span>
-                        </h2>
-                    </div>
-                    <p class="text-neutral-500 text-sm max-w-md">
-                        11 kompletnych działów przygotowujących do egzaminu. Do każdego poddziału masz dedykowane wideo oraz zestaw zadań.
-                    </p>
-                </div>
+    // Otwieranie podstrony z rozdziałami i przyciskiem Stripe
+    function openCoursePage(courseId) {
+      const course = courses.find(c => c.id === courseId);
+      if (!course) return;
 
-                <div onclick="openCourseDetails()" class="cursor-pointer group bg-[#182212] text-white rounded-[32px] p-8 sm:p-12 border-2 border-brandLime/40 hover:border-brandLime shadow-xl transition duration-300 relative overflow-hidden">
-                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-                        <div class="lg:col-span-8">
-                            <div class="inline-flex items-center gap-2 bg-brandLime/15 text-brandLime text-xs font-bold tracking-wider uppercase px-3.5 py-1.5 rounded-full mb-5">
-                                <span class="w-2 h-2 rounded-full bg-brandLime animate-pulse"></span>
-                                KURS KOMPLETNY • 11 DZIAŁÓW (WIDEO + ZADANIA DO KAŻDEGO)
-                            </div>
-                            <h3 class="text-3xl sm:text-4xl font-extrabold text-brandLime mb-4 group-hover:translate-x-1 transition-transform">
-                                Kurs: Egzamin Ósmoklasisty z Matematyki
-                            </h3>
-                            <p class="text-neutral-300 text-base sm:text-lg leading-relaxed max-w-2xl">
-                                Pełne przygotowanie krok po kroku. W każdym poddziale znajdziesz filmik z tłumaczeniem oraz zestaw zadań do samodzielnego przerobienia.
-                            </p>
-                        </div>
+      document.getElementById("detail-badge").textContent = course.badge;
+      document.getElementById("detail-title").textContent = course.title;
+      document.getElementById("detail-subtitle").textContent = course.shortDesc;
+      document.getElementById("detail-price").textContent = course.price;
+      document.getElementById("detail-stripe-btn").href = course.stripeUrl;
 
-                        <div class="lg:col-span-4 flex flex-col lg:items-end justify-between border-t lg:border-t-0 lg:border-l border-white/10 pt-6 lg:pt-0 lg:pl-8">
-                            <div class="lg:text-right mb-6">
-                                <span class="text-xs text-neutral-400 uppercase tracking-wider block">Pełny dostęp na 12 mies.</span>
-                                <div class="flex items-baseline lg:justify-end gap-2.5 mt-1">
-                                    <span class="text-xl font-bold text-neutral-500 line-through">250 zł</span>
-                                    <span class="text-4xl font-extrabold text-brandLime">100 zł</span>
-                                </div>
-                            </div>
-                            <button type="button" class="w-full lg:w-auto bg-brandLime group-hover:bg-lime-400 text-brandDark font-bold text-base px-8 py-4 rounded-2xl transition flex items-center justify-center gap-2 shadow-lg">
-                                Sprawdź program i kup &rarr;
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+      document.getElementById("detail-chapters").innerHTML = course.chapters.map(ch => `
+        <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <div>
+            <span class="text-xs font-bold text-sky-400 uppercase tracking-wider">${ch.num}</span>
+            <h4 class="font-bold text-white text-sm sm:text-base">${ch.name}</h4>
+            <p class="text-xs text-slate-400 mt-0.5">${ch.desc}</p>
+          </div>
+        </div>
+      `).join("");
 
-            <!-- WIDOK 2: Po kliknięciu w kurs – LAPTOP + STRIPE + 11 DZIAŁÓW -->
-            <div id="course-details" class="hidden animate-fade-in">
-                <button onclick="showOverview()" class="inline-flex items-center gap-2 text-sm font-semibold text-neutral-600 hover:text-brandBlue mb-6 transition">
-                    &larr; Wróć do widoku głównego
-                </button>
+      document.getElementById("detail-perks").innerHTML = course.perks.map(perk => `
+        <li>${perk}</li>
+      `).join("");
 
-                <div class="bg-white rounded-[32px] p-6 sm:p-10 shadow-[0_8px_40px_rgba(0,0,0,0.04)] border border-black/5">
-                    
-                    <!-- GÓRNA SEKCJA: LAPTOP + PŁATNOŚĆ STRIPE -->
-                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center pb-12 border-b border-neutral-200">
-                        
-                        <!-- LEWA KOLUMNA: Wizualizacja laptopa -->
-                        <div class="lg:col-span-6">
-                            <div class="relative mx-auto max-w-lg">
-                                <div class="bg-[#141414] rounded-t-2xl p-2.5 sm:p-3.5 shadow-2xl border-2 border-neutral-800 relative">
-                                    <div class="w-2 h-2 rounded-full bg-neutral-700 mx-auto mb-2"></div>
-                                    
-                                    <div class="bg-[#FAF9F5] rounded-lg overflow-hidden border border-black/10 aspect-[16/10] flex flex-col justify-between p-3 sm:p-4 text-left select-none">
-                                        <div class="flex items-center justify-between bg-white px-3 py-1.5 rounded-full shadow-sm border border-black/5">
-                                            <div class="flex items-center gap-1.5">
-                                                <span class="w-2 h-2 rounded-full bg-red-400"></span>
-                                                <span class="w-2 h-2 rounded-full bg-amber-400"></span>
-                                                <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-                                            </div>
-                                            <span class="font-display text-xs tracking-wider"><span class="text-brandDark">DAILY</span><span class="text-brandBlue">MATMA</span> • PLATFORMA</span>
-                                            <span class="text-[9px] bg-brandLime/30 text-brandDark font-bold px-2 py-0.5 rounded-full">E8</span>
-                                        </div>
+      document.getElementById("main-view").classList.add("hidden");
+      document.getElementById("course-detail-view").classList.remove("hidden");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
 
-                                        <div class="grid grid-cols-12 gap-2.5 my-auto py-2">
-                                            <div class="col-span-7 bg-[#182212] rounded-xl p-3 text-white flex flex-col justify-between relative overflow-hidden border border-brandLime/30">
-                                                <span class="text-[9px] font-bold text-brandLime uppercase">Lekcja 1.5 • Wideo</span>
-                                                <div class="my-2 flex items-center justify-center">
-                                                    <div class="w-9 h-9 rounded-full bg-brandLime text-brandDark flex items-center justify-center shadow-md">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 fill-current ml-0.5" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                                                    </div>
-                                                </div>
-                                                <div>
-                                                    <p class="text-[11px] font-bold leading-tight">Potęgi i pierwiastki</p>
-                                                    <div class="w-full bg-white/20 h-1 rounded-full mt-1.5 overflow-hidden">
-                                                        <div class="bg-brandLime w-2/3 h-full"></div>
-                                                    </div>
-                                                </div>
-                                            </div>
+    // Powrót do strony głównej
+    function showMainView() {
+      document.getElementById("course-detail-view").classList.add("hidden");
+      document.getElementById("main-view").classList.remove("hidden");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
 
-                                            <div class="col-span-5 bg-white rounded-xl p-2.5 border border-black/5 flex flex-col justify-between">
-                                                <span class="text-[9px] font-extrabold text-brandBlue uppercase">Twoje działy</span>
-                                                <div class="space-y-1.5 my-1">
-                                                    <div class="bg-cream p-1.5 rounded text-[9px] font-semibold flex items-center justify-between">
-                                                        <span>1. Liczby</span>
-                                                        <span class="text-emerald-600 font-bold">✓</span>
-                                                    </div>
-                                                    <div class="bg-cream p-1.5 rounded text-[9px] font-semibold flex items-center justify-between">
-                                                        <span>2. Procenty</span>
-                                                        <span class="text-brandBlue font-bold">▶</span>
-                                                    </div>
-                                                </div>
-                                                <div class="bg-brandBlue text-white text-[9px] font-bold text-center py-1 rounded">
-                                                    Zestaw zadań + klucz
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="flex items-center justify-between text-[9px] text-neutral-500 border-t border-black/5 pt-1.5">
-                                            <span>11 działów • 33 lekcje wideo</span>
-                                            <span class="font-bold text-brandDark">Dostęp 24/7</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="bg-gradient-to-b from-neutral-300 to-neutral-400 h-3.5 sm:h-4 rounded-b-2xl mx-[-12px] sm:mx-[-18px] shadow-lg relative flex justify-center">
-                                    <div class="w-16 sm:w-24 h-1.5 bg-neutral-500/50 rounded-b-md"></div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- PRAWA KOLUMNA: Boks płatności Stripe -->
-                        <div class="lg:col-span-6 space-y-5">
-                            <div class="bg-white rounded-3xl p-6 border-2 border-brandBlue/30 shadow-lg text-center">
-                                <div class="flex items-baseline justify-center gap-3">
-                                    <span class="text-xl font-bold text-neutral-400 line-through">250 PLN</span>
-                                    <span class="text-5xl font-extrabold text-brandDark">100 <span class="text-xl font-bold text-neutral-600">PLN</span></span>
-                                </div>
-                                <p class="text-xs text-neutral-400 mt-1.5">Dostęp na 12 miesięcy</p>
-
-                                <a href="#TWOJ_LINK_ZE_STRIPE" target="_blank" rel="noopener noreferrer" class="mt-5 w-full bg-brandBlue hover:bg-blue-700 text-white font-extrabold text-base py-4 px-6 rounded-2xl transition block shadow-md uppercase tracking-wide">
-                                    KUP DOSTĘP
-                                </a>
-
-                                <div class="mt-3 flex items-center justify-center gap-1.5 text-xs text-neutral-500 font-medium">
-                                    <span>Płatność szyfrowana przez <strong class="text-brandDark">Stripe</strong> (BLIK, Karta)</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- DOLNA SEKCJA: 11 DZIAŁÓW -->
-                    <div class="pt-10">
-                        <div class="mb-6">
-                            <span class="text-brandBlue font-bold text-xs uppercase tracking-widest">PEŁNY SPIS TREŚCI</span>
-                            <h4 class="text-2xl font-extrabold text-brandDark mt-1">Wszystkie 11 działów w kursie</h4>
-                        </div>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                            <div class="p-6 rounded-2xl bg-cream border border-black/5">
-                                <h4 class="font-bold text-lg text-brandDark mb-2">1. Liczby i działania</h4>
-                                <p class="text-xs text-neutral-600">Kolejność działań, ułamki, potęgi i pierwiastki (Wideo + Zadania)</p>
-                            </div>
-                            <div class="p-6 rounded-2xl bg-cream border border-black/5">
-                                <h4 class="font-bold text-lg text-brandDark mb-2">2. Procenty</h4>
-                                <p class="text-xs text-neutral-600">Obliczenia procentowe, podwyżki i obniżki (Wideo + Zadania)</p>
-                            </div>
-                            <div class="p-6 rounded-2xl bg-cream border border-black/5">
-                                <h4 class="font-bold text-lg text-brandDark mb-2">8. Geometria płaska</h4>
-                                <p class="text-xs text-neutral-600">Kąty, trójkąty, twierdzenie Pitagorasa (Wideo + Zadania)</p>
-                            </div>
-                            <div class="p-6 rounded-2xl bg-cream border border-black/5">
-                                <h4 class="font-bold text-lg text-brandDark mb-2">11. Finałowe szlify egzaminacyjne</h4>
-                                <p class="text-xs text-neutral-600">Zadania zamknięte, otwarte i pełne arkusze CKE</p>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-        </section>
-    </main>
-
-    <!-- SKRYPTY OBSŁUGI ZAKŁADEK I SUPABASE -->
-    <script>
-        // URL jest już w 100% poprawny z Twojego panelu Supabase
-        const SUPABASE_URL = 'https://jywkcyvmkvrtpigpljl.supabase.co';
-        
-        // TUTAJ Wklej skopiowany z zakładki "API Keys" długi klucz JWT (zaczynający się od eyJ...)
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp5d2tjeXZta3ZycnRwaWdwbGpsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQ2NDg4NTksImV4cCI6MjExMDIyNDg1OX0.SZjprLBK4TyKMYvh1FnPZkJg2BztaYzobowHP2xA5-M';
-        
-        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-        let authMode = 'login';
-
-        window.addEventListener('DOMContentLoaded', async () => {
-            const { data: { session } } = await _supabase.auth.getSession();
-            if (session) {
-                updateUIForLoggedInUser(session.user);
-            }
-        });
-
-        function openCourseDetails() {
-            closeStudentDashboard();
-            document.getElementById('course-overview').classList.add('hidden');
-            document.getElementById('course-details').classList.remove('hidden');
-            document.getElementById('kurs').scrollIntoView({ behavior: 'smooth' });
-        }
-
-        function showOverview() {
-            closeStudentDashboard();
-            document.getElementById('course-details').classList.add('hidden');
-            document.getElementById('course-overview').classList.remove('hidden');
-        }
-
-        function openAuthModal() {
-            document.getElementById('auth-modal').classList.remove('hidden');
-        }
-
-        function closeAuthModal() {
-            document.getElementById('auth-modal').classList.add('hidden');
-            document.getElementById('auth-message').classList.add('hidden');
-        }
-
-        function switchAuthMode(mode) {
-            authMode = mode;
-            const tabLogin = document.getElementById('tab-login');
-            const tabRegister = document.getElementById('tab-register');
-            const title = document.getElementById('auth-title');
-            const btn = document.getElementById('auth-submit-btn');
-
-            if (mode === 'login') {
-                tabLogin.className = 'py-2 rounded-lg bg-white text-brandDark shadow-sm transition';
-                tabRegister.className = 'py-2 rounded-lg text-neutral-500 hover:text-brandDark transition';
-                title.innerText = 'Zaloguj się do kursu';
-                btn.innerText = 'Zaloguj się →';
-            } else {
-                tabRegister.className = 'py-2 rounded-lg bg-white text-brandDark shadow-sm transition';
-                tabLogin.className = 'py-2 rounded-lg text-neutral-500 hover:text-brandDark transition';
-                title.innerText = 'Załóż konto ucznia';
-                btn.innerText = 'Zarejestruj się →';
-            }
-        }
-
-        async function handleAuthSubmit(e) {
-            e.preventDefault();
-            const email = document.getElementById('auth-email').value.trim();
-            const password = document.getElementById('auth-password').value;
-            const msgBox = document.getElementById('auth-message');
-
-            msgBox.classList.remove('hidden', 'bg-red-100', 'text-red-700', 'bg-emerald-100', 'text-emerald-700');
-            msgBox.classList.add('bg-blue-50', 'text-brandBlue');
-            msgBox.innerText = 'Przetwarzanie...';
-
-            if (authMode === 'login') {
-                const { data, error } = await _supabase.auth.signInWithPassword({ email, password });
-                if (error) {
-                    msgBox.className = 'text-xs font-semibold p-3 rounded-xl bg-red-100 text-red-700';
-                    msgBox.innerText = 'Błąd logowania: ' + error.message;
-                } else {
-                    closeAuthModal();
-                    updateUIForLoggedInUser(data.user);
-                    openStudentDashboard();
-                }
-            } else {
-                const { data, error } = await _supabase.auth.signUp({ email, password });
-                if (error) {
-                    msgBox.className = 'text-xs font-semibold p-3 rounded-xl bg-red-100 text-red-700';
-                    msgBox.innerText = 'Błąd rejestracji: ' + error.message;
-                } else {
-                    closeAuthModal();
-                    updateUIForLoggedInUser(data.user);
-                    openStudentDashboard();
-                }
-            }
-        }
-
-        async function updateUIForLoggedInUser(user) {
-            document.getElementById('btn-open-auth').classList.add('hidden');
-            document.getElementById('btn-nav-buy').classList.add('hidden');
-            document.getElementById('btn-student-zone').classList.remove('hidden');
-            document.getElementById('btn-logout').classList.remove('hidden');
-
-            document.getElementById('logged-user-email').innerText = 'Zalogowano jako: ' + user.email;
-            document.getElementById('no-access-email').innerText = user.email;
-            document.getElementById('account-view-email').innerText = user.email;
-
-            const { data, error } = await _supabase
-                .from('dostepy_kurs')
-                .select('ma_dostep')
-                .eq('email', user.email)
-                .single();
-
-            if (data && data.ma_dostep === true) {
-                document.getElementById('no-access-box').classList.add('hidden');
-                document.getElementById('student-main-content').classList.remove('hidden');
-            } else {
-                document.getElementById('student-main-content').classList.add('hidden');
-                document.getElementById('no-access-box').classList.remove('hidden');
-            }
-        }
-
-        function openStudentDashboard() {
-            document.getElementById('public-main').classList.add('hidden');
-            document.getElementById('student-dashboard').classList.remove('hidden');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        function closeStudentDashboard() {
-            document.getElementById('student-dashboard').classList.add('hidden');
-            document.getElementById('public-main').classList.remove('hidden');
-        }
-
-        async function logoutUser() {
-            await _supabase.auth.signOut();
-            location.reload();
-        }
-
-        function switchStudentTab(tabName) {
-            const tabs = ['kursy', 'materialy', 'postep', 'konto'];
-            tabs.forEach(t => {
-                document.getElementById('tab-' + t).classList.add('hidden');
-                const btn = document.getElementById('menu-' + t);
-                btn.className = 'w-full text-left px-4 py-3 rounded-2xl font-bold text-sm text-neutral-700 hover:bg-cream transition flex items-center gap-3';
-            });
-
-            document.getElementById('tab-' + tabName).classList.remove('hidden');
-            document.getElementById('menu-' + tabName).className = 'w-full text-left px-4 py-3 rounded-2xl font-bold text-sm bg-brandBlue text-white transition flex items-center gap-3 shadow-sm';
-        }
-
-        function selectLesson(badge, title, videoUrl, pdfUrl) {
-            document.getElementById('lesson-badge').innerText = badge;
-            document.getElementById('lesson-title').innerText = title;
-            document.getElementById('lesson-video-frame').src = videoUrl;
-            document.getElementById('lesson-pdf-link').href = pdfUrl;
-        }
-    </script>
+    renderCourses();
+  </script>
 </body>
 </html>
